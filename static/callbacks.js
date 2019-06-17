@@ -20,5 +20,9 @@ function createPost(post, callback) {
   }, 2000);
 }
 
+
+console.log("JS exec");
+getPosts();
+
 createPost({ title: 'Post Three', body: 'This is post three' }, getPosts);
 

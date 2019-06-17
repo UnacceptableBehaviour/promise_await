@@ -25,11 +25,11 @@ def db_hello_world():
     return render_template('index.html') #, recipes=recipes)
 
 
-@app.route('/twonky_donuts', methods=["GET", "POST"])
-def buttons_inputs():
-    headline_py = "Sending data back . . ."
-    recipes = {}
-    return render_template('index.html', recipes=recipes)
+# @app.route('/twonky_donuts', methods=["GET", "POST"])
+# def buttons_inputs():
+#     headline_py = "Sending data back . . ."
+#     recipes = {}
+#     return render_template('index.html', recipes=recipes)
 
 
 if __name__ == '__main__':
