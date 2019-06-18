@@ -25,4 +25,4 @@ console.log("JS exec");
 getPosts();
 
 createPost({ title: 'Post Three', body: 'This is post three' }, getPosts);
-
+console.log("New disciplines");
