@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 
 # dev remove
-#from helpers import 
+from helpers import get_igd_vocab
 
 
 # giza a look
@@ -20,9 +20,14 @@ import re
 # each app.route is an endpoint
 @app.route('/')
 def db_hello_world():
-    test_version = '0.0.0'
-    print(f"Vs: {test_version}") 
-    return render_template('index.html') #, recipes=recipes)
+    test_version = '0.0.0'; print(f"==|| Vs: {test_version}")
+    
+    recipe  = { 'ri_name': 'pulpo gallego' }
+    recipes = [ recipe ]
+    vocab = get_igd_vocab()
+    helper_data = { 'vocab': vocab }
+    
+    return render_template('index.html', recipes=recipes, helper_data=helper_data)
 
 
 # @app.route('/twonky_donuts', methods=["GET", "POST"])
