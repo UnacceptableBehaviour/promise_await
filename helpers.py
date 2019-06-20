@@ -103,7 +103,7 @@ def get_igd_vocab():
     vocab = get_nutrinfo_vocab(nutrinfo_text)
     
     print(vocab)    
-    vocab.sort()    
+    # vocab.sort()
     print("\n*\n*\n*\n*\n*")
     print(vocab)
     vocab = list( filter(None, vocab) ) # remove blanks

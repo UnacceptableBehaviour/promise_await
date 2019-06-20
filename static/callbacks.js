@@ -30,6 +30,8 @@ console.log("New disciplines");
 
 let vocab_cnt = 0;
 
+// calls self back every 500ms
+// recreates page with an extra post
 function bob_vocab() {
   posts.push( { title: `Post ${vocab[vocab_cnt]}`, body: `${vocab.slice(vocab_cnt+1,vocab_cnt+5)}` } );
   vocab_cnt += 5;

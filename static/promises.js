@@ -18,7 +18,7 @@ function createPost(post) {
     setTimeout(() => {
       posts.push(post);
 
-      const error = false;
+      const error = true;
 
       if (!error) {
         resolve();
@@ -29,9 +29,9 @@ function createPost(post) {
   });
 }
 
-// createPost({ title: 'Post Three', body: 'This is post three' })
-//   .then(getPosts)
-//   .catch(err => console.log(err));
+ createPost({ title: 'Post Three', body: 'This is post three' })
+   .then(getPosts)
+   .catch(err => console.log(err));
 
 // Async / Await
 // async function init() {
@@ -43,15 +43,15 @@ function createPost(post) {
 // init();
 
 // Asunc / Await / Fetch
-async function fetchUsers() {
-  const res = await fetch('https://jsonplaceholder.typicode.com/users');
-
-  const data = await res.json();
-
-  console.log(data);
-}
-
-fetchUsers();
+//async function fetchUsers() {
+//  const res = await fetch('https://jsonplaceholder.typicode.com/users');
+//
+//  const data = await res.json();
+//
+//  console.log(data);
+//}
+//
+//fetchUsers();
 
 // Promise.all
 // const promise1 = Promise.resolve('Hello World');
