@@ -1,4 +1,4 @@
-// promises - Ex2
+// promises - Ex3
 
 const vocab = hp_data['vocab']
 
@@ -12,7 +12,7 @@ function updateDOM(new_phrase){
 }
 
 function updateConsole(rejected_phrase){
-  console.warn(rejected_phrase);
+  console.log(rejected_phrase);
 }
 
 
@@ -104,8 +104,7 @@ let updateDOM_w_data_from_server = new Promise(function(resolve, reject){
   
   // if data in range   update DOM  resolve
   // else               cosole.log  reject
-  if ( check_range(phrase[0],'a','z') ) {     // resolve
-  //if ( check_range(phrase[0],'x','z') ) {   // reject
+  if ( check_range(phrase[0],'a','z') ) {
     resolve(phrase); 
   } else {
     err_from_reject = `REJECT: ${phrase} NOT in range`;
@@ -116,10 +115,16 @@ let updateDOM_w_data_from_server = new Promise(function(resolve, reject){
 
 updateDOM_w_data_from_server
   .then( phrase => updateDOM(phrase) )
-  .catch( err_from_reject => updateConsole(err_from_reject) );  // or
-  //.catch( err => console.log(err) );                          // or
-  //.catch( function(from_reject){ console.warn(from_reject); });
+  //.catch( updateConsole(err_from_reject) ); // NO WORK?
+  //.catch( err => console.log(err); );       // NO WORK?
+  .catch( function(from_reject){ console.warn(from_reject); });
 
 // this works in case of reject - fails otherwise - 
 //updateConsole(`SOLO: ${err_from_reject}`); // err_from_reject created on reject
 
+
+function evaluate_datastream(){
+
+  data = vocab_get_next_phrase();
+  
+}
