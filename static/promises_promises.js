@@ -22,7 +22,7 @@ function updateConsole(rejected_phrase){
   //01: 72351 - balsamic vinegar,23 - 72351
   //02: 72988 - bacon,23 - 72988
   //00: 73167 - sbs harissa powder,23 - 73167
-// note timeout is 23 (differs on each run) in all cases
+// note timeout is 23 in all cases (differs on each run) 
 // but they execute at the random time passed to setTimeout
 // 23 is the value of the last timeout - so looks like using the same storage for var!
 function vocab_get_next_phrase_a(marker='AA'){
@@ -44,7 +44,7 @@ function vocab_get_next_phrase_a(marker='AA'){
   
 }
 
-// asynchronous work to be done
+
 function vocab_get_next_phrase(marker='SS'){
   
   if (phrase_cnt++ > hp_data.length) { phrase_cnt = 0; }
@@ -98,7 +98,7 @@ console.log(`XX: ${stamp()} - ${[ vocab[phrase_cnt_async], 1950 ]} - ${stamp()}`
 let updateDOM_w_data_from_server = new Promise(function(resolve, reject){
 
   // WORK - get data from server
-  phrase_and_stamp = vocab_get_next_phrase();
+  phrase_and_stamp = vocab_get_next_phrase();  
   phrase = phrase_and_stamp[0];
   console.log(`phrase[0]=${phrase[0]}`);
   
