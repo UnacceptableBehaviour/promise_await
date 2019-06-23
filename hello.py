@@ -20,7 +20,8 @@ import re
 # each app.route is an endpoint
 @app.route('/')
 def db_hello_world():
-    test_version = '0.0.0'; print(f"==|| Vs: {test_version}")
+    test_version = '0.0.0'
+    print(f"==|| Vs: {test_version}")
     
     recipe  = { 'ri_name': 'pulpo gallego' }
     recipes = [ recipe ]
