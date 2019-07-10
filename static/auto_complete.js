@@ -1,11 +1,14 @@
+// Course notes:
+// HCJP_04_Java_Script_Asyn_Promises_Ajax.rtf
+// Part 3
+
 // get ingredients from nutridoc.txt
-
-
 // Create event listener
-document.getElementById('button-load').addEventListener('click', loadNutrinfo);
+document.getElementById('button-load').addEventListener('click', loadNutrinfoAjax);
 
-function loadNutrinfo(){
-  console.log('loadNutrinfo event handler');
+// LOAD Nutrinfo using AJAX 
+function loadNutrinfoAjax(){
+  console.log('loadNutrinfoAjax event handler');
 
   // Create XHR Object
   var xhr = new XMLHttpRequest();

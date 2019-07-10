@@ -7,6 +7,7 @@ var time_log = {};
 //console.log(typeof(dt));
 //console.log(typeof(new Date));
 
+
 function stamp(){  
   dt = (new Date);
   return `${dt.getSeconds()}.${dt.getMilliseconds()}`;

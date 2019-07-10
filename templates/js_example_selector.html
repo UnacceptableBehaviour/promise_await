@@ -1,38 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'nav_buttons_thin.html' %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+{% block header %}
+<style>
+  .filter_tag_btn, .button_get_test, .button_post_test {
+    margin: 1px;
+  }
+</style>
+{% endblock %}
 
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+{% block content %}
 
-  <title>Async JS</title>
-</head>
 
-<body>
   <div class='container'>
     <button id='button-load'>LOAD w/ AJAX</button>
     <div id="simple-output"></div>
-  </div>  
+  </div>
+  
   <script>
     // method 1 of getting nutrinfo into JS - use a filter
     var recipes = {{ recipes|tojson }};                   // convert info using tojson filter      
     console.log(`recipe_t JS ${recipes[0]['ri_name']} - inline CONCLUDED`);  // sanity check      
+    
     var hp_data = {{ helper_data|tojson }};       // convert info using tojson filter      
     console.log(`hp_data JS ${hp_data['vocab'][40]} - inline CONCLUDED`);  // sanity check
+    
+    
     // method 2 - ajax - in script
+    
+    
     // method 3 - fetch API - built into browser
+    
   </script>
+  
   <!--<script src="static/callbacks.js"></script>-->  
   <!--<script src="static/promises.js"></script>-->  
   <!--<script src="static/promises_promises.js"></script>-->
   <!--<script src="static/more_promises.js"></script>-->
   <!--<script src="static/async_await.js"></script>-->
   <!--<script src="static/async_await_ax1iii.js"></script> NOT FUNCTIONAL -->
-  <script src="static/auto_complete.js">AUTO COMPLETE</script>
-</body>
+  <!--<script src="static/auto_complete.js">AUTO COMPLETE</script>-->
+  <!--<script src="static/auto_complete.js"></script>-->
 
-</html>
+  <script src="static/{{script_example}}"></script>
+  
+
+
+{% endblock %}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        {% if doc_title %}
+        <title>{{ doc_title }}</title>
+        {% else %}
+        <title>need_to_add_a_title_for_template</title>
+        {% endif %}
+
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">      
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+
+
+        <!-- style buttons to show code is ready to demo
+        <style>
+            #bt-home, #bt-nutes-compare {
+                background-color: #8BCE51;
+            }
+            #bt-gallery, #bt-db-recipe, #bt-nutes {
+                background-color: #B1D6E2;
+            }
+        </style>
+        -->
+        
+        <!--<link rel="stylesheet" href="static/style.css">-->
+        
+        {% block header %}
+        {% endblock%}
+
+    </head>
+
+    <body>
+        <button id='bt-home'>
+            <a href="{{url_for('hello_world_js_examples')}}">HOME</a>
+        </button>
+
+        <button id='bt-git-report'>
+            <a href="{{url_for('git_report')}}">REPOS</a>
+        </button>
+        <hr>
+        <div id='js-target-navbar-top'></div>
+            
+        {% block content %}
+        {% endblock %}
+        
+        <div id='js-target-navbar-bottom'></div>
+
+    </body>
+</html>
+
+

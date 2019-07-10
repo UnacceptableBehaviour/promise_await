@@ -1,0 +1,161 @@
+{% extends 'nav_buttons_thin.html' %}
+
+{% block header %}
+<style>
+    .repo{
+      display: flex;
+      background:#f4f4f4;
+      padding:10px;
+      margin-bottom:10px;
+    }
+
+    .repo ul{
+      list-style: none;
+      padding-left: 10px;
+      margin-top:0px;
+      margin-bottom:5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+<body>
+  <button id="button">Load Repos</button>
+  <br><br>
+  <h3>Github UnacceptableBehaviour - Repos</h3>
+  <div id="repos"></div>
+
+  <script>
+    document.getElementById('button').addEventListener('click', loadUsers);
+
+    // Load Github Repos - See JSON layout at bottom
+    function loadUsers(){
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'https://api.github.com/users/UnacceptableBehaviour/repos', true);
+
+      xhr.onload = function(){
+        if(this.status == 200){
+          var repos = JSON.parse(this.responseText);
+
+          var output = '';
+          for(var i in repos){
+            output +=
+              '<div class="repo">' +
+              '<img src="'+repos[i].owner.avatar_url+'" width="35" height="35">' +
+              '<ul>' +
+              '<li>repo: '+repos[i].name+'</li>' +
+              '<li>'+repos[i].description+'</li>' +
+              '</ul>' +
+              '</div>';
+          }
+
+          document.getElementById('repos').innerHTML = output;
+        }
+      }
+
+      xhr.send();
+    }
+  </script>
+</body>
+
+
+{% endblock %}
+
+<!--
+{
+    "id": 175510733,
+    "node_id": "MDEwOlJlcG9zaXRvcnkxNzU1MTA3MzM=",
+    "name": "01_flask",
+    "full_name": "UnacceptableBehaviour/01_flask",
+    "private": false,
+    "owner": {
+      "login": "UnacceptableBehaviour",
+      "id": 8268797,
+      "node_id": "MDQ6VXNlcjgyNjg3OTc=",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/8268797?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/UnacceptableBehaviour",
+      "html_url": "https://github.com/UnacceptableBehaviour",
+      "followers_url": "https://api.github.com/users/UnacceptableBehaviour/followers",
+      "following_url": "https://api.github.com/users/UnacceptableBehaviour/following{/other_user}",
+      "gists_url": "https://api.github.com/users/UnacceptableBehaviour/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/UnacceptableBehaviour/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/UnacceptableBehaviour/subscriptions",
+      "organizations_url": "https://api.github.com/users/UnacceptableBehaviour/orgs",
+      "repos_url": "https://api.github.com/users/UnacceptableBehaviour/repos",
+      "events_url": "https://api.github.com/users/UnacceptableBehaviour/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/UnacceptableBehaviour/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "html_url": "https://github.com/UnacceptableBehaviour/01_flask",
+    "description": "simple templates using python / flask",
+    "fork": false,
+    "url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask",
+    "forks_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/forks",
+    "keys_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/keys{/key_id}",
+    "collaborators_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/collaborators{/collaborator}",
+    "teams_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/teams",
+    "hooks_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/hooks",
+    "issue_events_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/issues/events{/number}",
+    "events_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/events",
+    "assignees_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/assignees{/user}",
+    "branches_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/branches{/branch}",
+    "tags_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/tags",
+    "blobs_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/git/blobs{/sha}",
+    "git_tags_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/git/tags{/sha}",
+    "git_refs_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/git/refs{/sha}",
+    "trees_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/git/trees{/sha}",
+    "statuses_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/statuses/{sha}",
+    "languages_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/languages",
+    "stargazers_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/stargazers",
+    "contributors_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/contributors",
+    "subscribers_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/subscribers",
+    "subscription_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/subscription",
+    "commits_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/commits{/sha}",
+    "git_commits_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/git/commits{/sha}",
+    "comments_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/comments{/number}",
+    "issue_comment_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/issues/comments{/number}",
+    "contents_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/contents/{+path}",
+    "compare_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/compare/{base}...{head}",
+    "merges_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/merges",
+    "archive_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/{archive_format}{/ref}",
+    "downloads_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/downloads",
+    "issues_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/issues{/number}",
+    "pulls_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/pulls{/number}",
+    "milestones_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/milestones{/number}",
+    "notifications_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/notifications{?since,all,participating}",
+    "labels_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/labels{/name}",
+    "releases_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/releases{/id}",
+    "deployments_url": "https://api.github.com/repos/UnacceptableBehaviour/01_flask/deployments",
+    "created_at": "2019-03-13T22:51:43Z",
+    "updated_at": "2019-03-25T19:27:38Z",
+    "pushed_at": "2019-03-25T19:27:37Z",
+    "git_url": "git://github.com/UnacceptableBehaviour/01_flask.git",
+    "ssh_url": "git@github.com:UnacceptableBehaviour/01_flask.git",
+    "clone_url": "https://github.com/UnacceptableBehaviour/01_flask.git",
+    "svn_url": "https://github.com/UnacceptableBehaviour/01_flask",
+    "homepage": null,
+    "size": 1771,
+    "stargazers_count": 0,
+    "watchers_count": 0,
+    "language": "HTML",
+    "has_issues": true,
+    "has_projects": true,
+    "has_downloads": true,
+    "has_wiki": true,
+    "has_pages": false,
+    "forks_count": 0,
+    "mirror_url": null,
+    "archived": false,
+    "disabled": false,
+    "open_issues_count": 0,
+    "license": null,
+    "forks": 0,
+    "open_issues": 0,
+    "watchers": 0,
+    "default_branch": "master"
+  },
+  -->
