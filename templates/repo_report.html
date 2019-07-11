@@ -32,8 +32,14 @@
 
     // Load Github Repos - See JSON layout at bottom
     function loadUsers(){
+      userName = 'UnacceptableBehaviour';
+      
+      console.log(`getting repos for user ${userName}`);
+      
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', 'https://api.github.com/users/UnacceptableBehaviour/repos', true);
+      
+      // OPEN - type,  url/file,                                                  async
+      xhr.open('GET', `https://api.github.com/users/${userName}/repos`, true);
 
       xhr.onload = function(){
         if(this.status == 200){
@@ -49,12 +55,16 @@
               '<li>'+repos[i].description+'</li>' +
               '</ul>' +
               '</div>';
-          }
+          } 
 
           document.getElementById('repos').innerHTML = output;
         }
       }
 
+      xhr.onerror = function(){
+        console.log('Request Error: ${this.status} <');
+      }
+      
       xhr.send();
     }
   </script>
