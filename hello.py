@@ -71,7 +71,8 @@ def js_fetch_test():
     
     # POST request
     if request.method == 'POST':
-        print('Incoming..')
+        print('Incoming . . yeay!! . . victory dance . . . aruba aruba aruba')
+        pprint(request)
         print(request.get_json())  # parse as JSON
         return 'OK', 200
 

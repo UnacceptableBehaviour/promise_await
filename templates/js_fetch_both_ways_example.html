@@ -33,16 +33,41 @@
     
     
     //            function() { outputDiv.innerHTML = 'GET' }     
-    buttonGet.addEventListener('click', function() { outputDiv.innerHTML = 'GET' } )
-    
-    // or         () => { outputDiv.innerHTML = 'POST' }
-    
-    buttonPost.addEventListener('click', () => { outputDiv.innerHTML = 'POST' } )
-    
+    buttonGet.addEventListener('click', fetchButtonGET )    
+    // or         () => { outputDiv.innerHTML = 'POST' }    
+    buttonPost.addEventListener('click', fetchButtonPOST )    
     // but not    function() => { outputDiv.innerHTML = 'POST' }    
     //buttonSpare.addEventListener('click', function() => { outputDiv.innerHTML = 'POST' } )
     
+    function fetchButtonGET() {
+      outputDiv.innerHTML = 'GET';
+
+      fetch( '/js_fetch_test')
+        .then( function(response) {
+          return response.text();
+        
+        }).then( function(text) {
+          console.log(`GET response: ${text}`);      // should read "Rendered HTML from route"
+        });      
+
+    }
     
+    function fetchButtonPOST() {
+      outputDiv.innerHTML = 'POST';
+      
+      fetch( '/js_fetch_test', {
+        method: 'POST',                                             // method (default is GET)
+        headers: {'Content-Type': 'application/json' },             // JSON
+        body: JSON.stringify( { 'greeting':"Hello from browser" } ) // Payload
+
+      }).then( function(response) {
+        return response.text();
+      
+      }).then( function(text) {
+        console.log(`POST response: ${text}`);      // should read "POST response: OK"
+      });
+      
+    }
     
     
     
