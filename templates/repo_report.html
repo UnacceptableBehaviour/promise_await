@@ -62,13 +62,13 @@
       }
 
       xhr.onerror = function(){        
-        console.log('Request Error: ${this.status} <');
+        console.log(`Request Error: ${this.status} : ${this.statusText} <`);
         // to force this to trigger turn off wifi connection
         // Set a break point on console.log
         // RC Window > Inspect > Sources > LC to left of line - turqoise arrow highlights BP
         // Click Load repos button inspect
         // Scope > Local > this: XMLHttpRequest > status: 0
-
+        // But back tick in - still 0 and 
       }
       
       xhr.send();
