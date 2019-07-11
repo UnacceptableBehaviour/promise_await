@@ -1,0 +1,60 @@
+{% extends 'nav_buttons_thin.html' %}
+
+{% block header %}
+<style>
+  .filter_tag_btn, .button_get_test, .button_post_test {
+    margin: 1px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+  <div class='container'>
+    <div class="container-fluid">
+      <button id='button-fetch-get'>Fetch GET</button>
+      <button id='button-fetch-post'>Fetch POST</button>
+      <button id='button-fetch-spare'>Spare</button>
+    </div>
+    <div id="simple-output"></div>
+  </div>
+  
+  <script>
+    var repoData = {{ repo_data|tojson }};       // convert info using tojson filter      
+    console.log(`repoData JS ${repoData['greeting']} - inline CONCLUDED`);  // sanity check
+    
+    outputDiv = document.getElementById('simple-output')
+    buttonGet = document.getElementById('button-fetch-get')
+    buttonPost = document.getElementById('button-fetch-post')
+    buttonSpare = document.getElementById('button-fetch-spare')
+    
+    outputDiv.innerHTML = repoData['greeting']
+    
+    
+    //            function() { outputDiv.innerHTML = 'GET' }     
+    buttonGet.addEventListener('click', function() { outputDiv.innerHTML = 'GET' } )
+    
+    // or         () => { outputDiv.innerHTML = 'POST' }
+    
+    buttonPost.addEventListener('click', () => { outputDiv.innerHTML = 'POST' } )
+    
+    // but not    function() => { outputDiv.innerHTML = 'POST' }    
+    //buttonSpare.addEventListener('click', function() => { outputDiv.innerHTML = 'POST' } )
+    
+    
+    
+    
+    
+    // method 2 - ajax - in script
+    
+    
+    // method 3 - fetch API - built into browser
+    
+  </script>
+  
+  <!--<script src="static/callbacks.js"></script>-->  
+  
+
+
+{% endblock %}

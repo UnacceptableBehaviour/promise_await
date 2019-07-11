@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -9,6 +9,7 @@ app = Flask(__name__)
 
 # dev remove
 from helpers import get_igd_vocab
+from git_helpers import find_all_local_git_repos
 
 
 # giza a look
@@ -50,8 +51,36 @@ def hello_world_js_examples():
 @app.route('/git_report', methods=["GET", "POST"])
 def git_report():
     headline_py = "Sending data back . . ."
+    repo_data = {}
+    
+    repositories = find_all_local_git_repos()
+    
+    for k in repositories:
+        print(f"{k}\t in: {repositories[k]}")
+    
+    repo_data['local'] = repositories
+    
+    return render_template('repo_report.html', repo_data=repo_data)
+
+
+
+@app.route('/js_fetch_test', methods=["GET", "POST"])
+def js_fetch_test():
+    headline_py = "Sending data back . . ."
     recipes = {}
-    return render_template('repo_report.html', recipes=recipes)
+    
+    # POST request
+    if request.method == 'POST':
+        print('Incoming..')
+        print(request.get_json())  # parse as JSON
+        return 'OK', 200
+
+    # GET request
+    else:
+        message = {'greeting':'Hello from Flask!'}
+        #return jsonify(message)  # serialize and use JSON headers
+        #return render_template('js_fetch_both_ways_example.html', repo_data=jsonify(message))
+        return render_template('js_fetch_both_ways_example.html', repo_data=message)
 
 
 if __name__ == '__main__':

@@ -42,20 +42,36 @@ def find_all_local_git_repos_under_directory(target_dir):
         repo_dict[repo_name] = repo_path
         
     return repo_dict
+
+
+def find_all_local_git_repos():    
+    file_path = Path('/Users/simon/a_syllabus/lang/')
     
+    return find_all_local_git_repos_under_directory(file_path) 
 
 
+import json
     
 if __name__ == '__main__':
 
-    file_path = Path('/Users/simon/a_syllabus/lang/')
-
-    print( type(file_path) )
-    print( f"{file_path} \n\n" )
+    # file_path = Path('/Users/simon/a_syllabus/lang/')
+    # 
+    # print( type(file_path) )
+    # print( f"{file_path} \n\n" )
+    # 
+    # repositories = find_all_local_git_repos_under_directory(file_path)
+    # 
+    # for k in repositories:
+    #     print(f"{k}\t in: {repositories[k]}")
     
-    repositories = find_all_local_git_repos_under_directory(file_path)
+    animal = {'type':'cat', 'age':12}
+    as_json = json.dumps(animal)
     
-    for k in repositories:
-        print(f"{k}\t in: {repositories[k]}")
+    print(type(animal))  # prints '<class 'dict'>'
+    print(type(as_json))  # prints '<class 'str'>'
+    print(as_json)
     
+    # now back again
+    as_object = json.loads(as_json)
+    print(type(as_object))  # prints '<class 'dict'>'
     
