@@ -6,6 +6,7 @@
 
 import os                   # chdir(dir), getcwd
 import subprocess           # subprocess.run(command, arg)
+import re                   # regular expresions
 
 #import itertools            # items()
 
@@ -53,9 +54,18 @@ def find_all_local_git_repos():
     return find_all_local_git_repos_under_directory(file_path) 
 
 
+
 def get_list_of_files_from_gits_status_subset(text, header=''):
+    # by this point the subsection header has been removed
+    # all that's left is hints in brackets & files of interest
+
+    # re.DOTALL, re.S  -  Make . match any character, including newlines.
+    # re.MULTILINE, re.M - Multi-line matching, affecting ^ and $.
+    # return re.findall(r'\t(.*?)$', text, re.M | re.S)
     
-    return ['file_one.js','file_two.txt']
+    return re.findall(r'\t(.*?)$', text, re.M)  # return list ['file_one.js','file_two.txt']
+    
+
 
 
 def process_git_status(git_status_response):
@@ -86,7 +96,7 @@ def process_git_status(git_status_response):
     # any of the above section may or may not be present in the git status output.
     # start at the end and remove sections one by one
     search_and_split_list = {'untracked':'Untracked files:',
-                             'not_satged':'Changes not staged for commit:',
+                             'not_staged':'Changes not staged for commit:',
                              'changes_to_commit':'Changes to be committed:'}
     TO_KEEP_PROCESSING = 0
     OF_INTEREST = 1
@@ -98,15 +108,18 @@ def process_git_status(git_status_response):
         if search_and_split_list[key] in git_status_response:            # returns True or False
             
             # split the end off and retrive files
-            print(f">>>> splitting S {search_and_split_list[key]}")
+            #print(f">>>> splitting S {search_and_split_list[key]}")
             halves = git_status_response.split(search_and_split_list[key])
-            pprint(len(halves))
-            print(halves[TO_KEEP_PROCESSING])
-            print("   = = = = = =   ")
-            print(halves[OF_INTEREST])
-            print(f">>>> splitting E Size:{len(halves)}")
+            #pprint(len(halves))
+            #print(halves[TO_KEEP_PROCESSING])
+            #print("   = = = = = =   ")
+            #print(halves[OF_INTEREST])
+            #print(f">>>> splitting E Size:{len(halves)}")
             
-            status_dict[key] = get_list_of_files_from_gits_status_subset(git_status_response)
+            status_dict[key] = get_list_of_files_from_gits_status_subset(halves[OF_INTEREST])
+            print(f">>>> splitting S {key}")
+            print(status_dict[key])
+            print(f">>>> splitting E Size:{len(status_dict[key])}\n")
     
 
     #print(regex_me)
