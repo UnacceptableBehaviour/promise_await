@@ -2,9 +2,19 @@
 
 {% block header %}
 <style>
-  .filter_tag_btn, .button_get_test, .button_post_test {
-    margin: 1px;
-  }
+    .repo{
+      display: flex;
+      background:#f4f4f4;
+      padding:10px;
+      margin-bottom:10px;
+    }
+
+    .repo ul{
+      list-style: none;
+      padding-left: 10px;
+      margin-top:0px;
+      margin-bottom:5px;
+    }
 </style>
 {% endblock %}
 
@@ -18,11 +28,15 @@
       <button id='button-fetch-spare'>Spare</button>
     </div>
     <div id="simple-output"></div>
+    <br>
+    <div id="repos"></div>
   </div>
   
   <script>
     var repoData = {{ repo_data|tojson }};       // convert info using tojson filter      
     console.log(`repoData JS ${repoData['greeting']} - inline CONCLUDED`);  // sanity check
+    
+    var repoPostList = [];
     
     outputDiv = document.getElementById('simple-output')
     buttonGet = document.getElementById('button-fetch-get')
@@ -38,16 +52,42 @@
     buttonPost.addEventListener('click', fetchButtonPOST )    
     // but not    function() => { outputDiv.innerHTML = 'POST' }    
     //buttonSpare.addEventListener('click', function() => { outputDiv.innerHTML = 'POST' } )
-    
+
+
+    userName = 'UnacceptableBehaviour';      
+    console.log(`getting repos for user ${userName}`);
+      
+  
     function fetchButtonGET() {
       outputDiv.innerHTML = 'GET';
 
-      fetch( '/js_fetch_test')
+      fetch( `https://api.github.com/users/${userName}/repos` )
         .then( function(response) {
           return response.text();
         
         }).then( function(text) {
-          console.log(`GET response: ${text}`);      // should read "Rendered HTML from route"
+          //console.log(`GET response: ${text}`);      // should read "Rendered HTML from route"
+          
+          var repos = JSON.parse(text);
+
+          var output = '';
+          for(var i in repos){
+            
+            repoPostList.push(repos[i].name);    // populate array with repo names
+            console.log(repoPostList);
+            
+            output +=
+              '<div class="repo">' +
+              '<img src="'+repos[i].owner.avatar_url+'" width="35" height="35">' +
+              '<ul>' +
+              '<li>repo: '+repos[i].name+'</li>' +
+              '<li>'+repos[i].description+'</li>' +
+              '</ul>' +
+              '</div>';
+          } 
+
+          document.getElementById('repos').innerHTML = output;          
+
         });      
 
     }
@@ -58,7 +98,8 @@
       fetch( '/js_fetch_test', {
         method: 'POST',                                             // method (default is GET)
         headers: {'Content-Type': 'application/json' },             // JSON
-        body: JSON.stringify( { 'greeting':"Hello from browser" } ) // Payload
+        //body: JSON.stringify( { 'greeting':"Hello from browser" } ) // Payload
+        body: JSON.stringify( { 'repos':repoPostList } )            // New Payload        
 
       }).then( function(response) {
         return response.text();
@@ -68,8 +109,6 @@
       });
       
     }
-    
-    
     
     // method 2 - ajax - in script
     
