@@ -131,34 +131,6 @@ def process_git_status(git_status_response):
     return(status_dict)
 
 
-def get_status_of_local_git_repos(repo_list):
-    repo_report = {}
-
-    for index, repo in enumerate(repo_list):
-        
-        if repo in repos_with_paths:
-            print(str.ljust(" - - - - - - - - - - - - - - - - - FOUND "+f"{index} - {repo}", 30) + f"  {repos_with_paths[repo]}")
-            
-            # the default in inverted commas is returned if value not in dict
-            repo_to_check_path = repos_with_paths.pop(repo, "lightening_bolts_of_wtf?")                                             
-            
-            print(f"\n\nChecking REPO: {repo}     - - - - - <")
-            pprint(repo_to_check_path)
-            os.chdir( Path(repo_to_check_path).joinpath(repo) )
-            #print(os.getcwd())
-            
-            repo_status = subprocess.run(['git', 'status'], stdout=subprocess.PIPE).stdout.decode('utf-8')
-            #repo_status = subprocess.run(['git status', ''], stdout=subprocess.PIPE).stdout.decode('utf-8')
-            
-            print(f"\n- - returned from shell - - {repo}")
-            print(repo_status)
-            repo_report[repo] = process_git_status(repo_status)
-            print("- - - - - - - - - - - - - - - - - - - -|")
-            
-        else:
-            print(str.ljust("      "+f"{index} - {repo}", 30) + "* * WARNING - NOT FOUND * *")
-
-    return repo_report
 
 
     
@@ -170,47 +142,125 @@ if __name__ == '__main__':
     # example output:
     # FOUND 0 - gdb_lldb            /Users/simon/a_syllabus/lang/c++/repos/
     # FOUND 1 - openFrameworks      /Users/simon/a_syllabus/lang/c++/repos/
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # FOUND 2 - ajax_cc             /Users/simon/a_syllabus/lang/html_css_js/
+    # FOUND 3 - bootstrap_4         /Users/simon/a_syllabus/lang/html_css_js/
+    # FOUND 4 - dom_js              /Users/simon/a_syllabus/lang/html_css_js/
+    # FOUND 5 - fetch_js            /Users/simon/a_syllabus/lang/html_css_js/
+    # FOUND 6 - html_label          /Users/simon/a_syllabus/lang/html_css_js/
+    # FOUND 7 - js_intro_msgQ       /Users/simon/a_syllabus/lang/html_css_js/
+    # FOUND 8 - promise_await       /Users/simon/a_syllabus/lang/html_css_js/
+    # FOUND 9 - linux_bike          /Users/simon/a_syllabus/lang/linux_mix/
+    # FOUND 10 - linux_scripts      /Users/simon/a_syllabus/lang/linux_mix/
+    # FOUND 11 - 00_flask           /Users/simon/a_syllabus/lang/python/repos/
+    # FOUND 12 - 01_flask           /Users/simon/a_syllabus/lang/python/repos/
+    # FOUND 13 - 02_flask_js_mysql  /Users/simon/a_syllabus/lang/python/repos/
+    # FOUND 14 - assest_server      /Users/simon/a_syllabus/lang/python/repos/
+    # FOUND 15 - heroku_nubes       /Users/simon/a_syllabus/lang/python/repos/
+    # FOUND 16 - mysql_python       /Users/simon/a_syllabus/lang/python/repos/
+    # FOUND 17 - python-getting-started/Users/simon/a_syllabus/lang/python/repos/
+    # FOUND 18 - python_koans       /Users/simon/a_syllabus/lang/python/repos/
+    # FOUND 19 - _sketchup          /Users/simon/a_syllabus/lang/ruby/repos/
+    # FOUND 20 - nutri_scrape       /Users/simon/a_syllabus/lang/ruby/repos/
+    # FOUND 21 - sketchup           /Users/simon/a_syllabus/lang/ruby/repos/
+    # FOUND 22 - ruby_sinatra       /Users/simon/a_syllabus/lang/ruby/sinatra/repos/
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 1
+    file_path = Path('/Users/simon/a_syllabus/lang/')
     
-    repos_with_paths = find_all_local_git_repos()
-                    
+    print( type(file_path) )
+    print( f"{file_path} \n\n" )
+    
+    repos_with_paths = find_all_local_git_repos_under_directory(file_path)
+    
+    for index, repo in enumerate(repos_with_paths):
+        
+        if repo in repos_with_paths:    # list cross-compare function LOCAL version / GIT version
+            print(str.ljust("FOUND "+f"{index} - {repo}", 30) + f"{repos_with_paths[repo]}")
+        else:
+            print(str.ljust("      "+f"{index} - {repo}", 30) + "* * WARNING - NOT FOUND * *")
+            
+        
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # converting from and to JSON strings and dictionaries
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 2
-    repo_payload_dict = {'user': 'UnacceptableBehaviour','repos': ['00_flask', '01_flask', '02_flask_js_mysql', 'ajax_cc', 'assest_server', 'bootstrap_4', 'dom_js', 'fetch_js', 'gdb_lldb', 'heroku_nubes', 'html_label', 'js_intro_msgQ', 'label', 'linux_bike', 'mysql_python', 'nutri_scrape', 'promise_await', 'python_koans', 'shoes4', 'sketchup']}
+    repo_payload_dict = {'repos': ['00_flask', '01_flask', '02_flask_js_mysql', 'ajax_cc', 'assest_server', 'bootstrap_4', 'dom_js', 'fetch_js', 'gdb_lldb', 'heroku_nubes', 'html_label', 'js_intro_msgQ', 'label', 'linux_bike', 'mysql_python', 'nutri_scrape', 'promise_await', 'python_koans', 'shoes4', 'sketchup']}
+    
+    # convert from DICT to JSON string - dump string    
     repo_payload_json_string = json.dumps(repo_payload_dict)
-
-    # DICT to work with   
-    repo_dict = json.loads(repo_payload_json_string) # JSON FROM BROWSER
+    
+    print(type(repo_payload_dict))  # prints '<class 'dict'>'
+    print(type(repo_payload_json_string))  # prints '<class 'str'>'
+    print(repo_payload_json_string)
+    
+    # this is what we'll receive in the request in the python code (SERVER) from a fetch(POST) in the JS (BROWSER)
+    # convert from JSON string to DICT - load string
+    repo_dict = json.loads(repo_payload_json_string)
+    print(type(repo_dict))  # prints '<class 'dict'>'
     
     # create a list of repo names to work with (and compare to local repos)    
-    repo_list = repo_dict['repos']    
+    repo_list = repo_dict['repos']
+    print("----")
+    pprint(repo_list)
+    print("----")
+    
     print(f"No of repos in JSON: {len(repo_list)}")
 
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # executing shell commands: (to get response from git status)
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    # >>> import subprocess
+    # >>> result = subprocess.run(['ls', '-l'], stdout=subprocess.PIPE)
+    # >>> result.stdout
+    # b'total 0\n-rw-r--r--  1 memyself  staff  0 Mar 14 11:04 files\n'
+    # The return value is a bytes object, so if you want a proper string, you'll need to decode it.
+    # Assuming the called process returns a UTF-8-encoded string:
+    # 
+    # >>> result.stdout.decode('utf-8')
+    # 'total 0\n-rw-r--r--  1 memyself  staff  0 Mar 14 11:04 files\n'
+    # This can all be compressed to a one-liner:
+    # 
+    # >>> subprocess.run(['ls', '-l'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    #
+    # changing directory
+    # import os
+    # >> os.chdir("/tmp/")
+    # >>> os.getcwd()    
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    
     
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # go through repo list and get status
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    repo_report = get_status_of_local_git_repos(repo_list)
-
-    print("\n\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
-    print(f"Status of all repos belonging to user: {repo_payload_dict['user']}")            
-    #pprint(repo_report)
-    for repo in repo_report:
-        if len(repo_report[repo]) == 0:
-            print(f"==> Repo: {repo} complete.")
-        else:
-            print(f"==> Repo: {repo} outstanding.")
+    repo_report = {}
+    
+    for index, repo in enumerate(repo_list):
+        
+        if repo in repos_with_paths:
+            print(str.ljust("FOUND "+f"{index} - {repo}", 30) + f"{repos_with_paths[repo]}")
             
-            for status in repo_report[repo]:
-                print(f"\t{status.upper()}")
-                
-                for file in repo_report[repo][status]:
-                    print(f"\t\t{file}")
+            # the default in inverted commas is returned if value not in dict
+            repo_to_check_path = repos_with_paths.pop(repo, "lightening_bolts_of_wtf?")             
+                # del repos_with_paths[repo] # also works
+            
+            print(f"\n\nChecking REPO: {repo}")
+            pprint(repo_to_check_path)
+            os.chdir( Path(repo_to_check_path).joinpath(repo) )
+            print(os.getcwd())
+            
+            repo_status = subprocess.run(['git', 'status'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+            #repo_status = subprocess.run(['git status', ''], stdout=subprocess.PIPE).stdout.decode('utf-8')
+            print("\n- - returned from shell - -")
+            print(repo_status)
+            repo_report[repo] = process_git_status(repo_status)
+            print("- - -|")
+            break   # just do 1 for now while developing the code
+            
+            
+        else:
+            print(str.ljust("      "+f"{index} - {repo}", 30) + "* * WARNING - NOT FOUND * *")
+            
+    pprint(repos_with_paths)    
     
-    
-    print("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
 
 
