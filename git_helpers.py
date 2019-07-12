@@ -9,18 +9,26 @@ import subprocess           # subprocess.run(command, arg)
 import re                   # regular expresions
 import json                 # json parsing
 
-#import itertools            # items()
-
-#import re
-
-# https://docs.python.org/3/library/pathlib.html
-from pathlib import Path    # working with paths
-
+import glob                 
 from pprint import pprint   # giza a look
 
-# import urllib.request       # for get file from server
+from pathlib import Path    # working with paths - # https://docs.python.org/3/library/pathlib.html
+import logging              # include various levels of debugging - https://docs.python.org/3/howto/logging.html
 
-import glob
+
+
+# create directory (and subdirectory if NO exist)    
+local_scratch_dir = Path("./scratch/")
+local_scratch_dir.mkdir(parents=True, exist_ok=True)
+# configure basic logging - create new file each time
+#logging.basicConfig(filename='scratch/git_helper.log', filemode='w', level=logging.INFO, format='%(asctime)s %(message)s')
+
+# levels lowest to highest: DEBUG, INFO, WARNING, ERROR, CRITICAL
+# logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')   # add time & date info
+
+logging.basicConfig(level=logging.INFO)   # set level
+
+
 
 def find_all_local_git_repos_under_directory(target_dir):
     repo_dict = {}
@@ -71,8 +79,7 @@ def get_list_of_files_from_gits_status_subset(text, header=''):
 
 def process_git_status(git_status_response):
     status_dict = {}
-        
-    print("- - - process_git_status - S")
+            
     # eg git status o/p
     #
     # On branch master
@@ -109,56 +116,67 @@ def process_git_status(git_status_response):
         if search_and_split_list[key] in git_status_response:            # returns True or False
             
             # split the end off and retrive files
-            #print(f">>>> splitting S {search_and_split_list[key]}")
             halves = git_status_response.split(search_and_split_list[key])
             
             git_status_response = halves[TO_KEEP_PROCESSING]
-            #pprint(len(halves))
-            #print(halves[TO_KEEP_PROCESSING])
-            #print("   = = = = = =   ")
-            #print(halves[OF_INTEREST])
-            #print(f">>>> splitting E Size:{len(halves)}")
             
             status_dict[key] = get_list_of_files_from_gits_status_subset(halves[OF_INTEREST])
-            #print(f">>>> splitting S {key}")
-            #print(status_dict[key])
-            #print(f">>>> splitting E Size:{len(status_dict[key])}\n")
     
-
-    #print(regex_me)
-    print("- - - process_git_status - E")
     
     return(status_dict)
 
 
-def get_status_of_local_git_repos(repo_list):
+def get_status_of_local_git_repos(repo_list, debug_level=0):
     repo_report = {}
 
     for index, repo in enumerate(repo_list):
         
         if repo in repos_with_paths:
-            print(str.ljust(" - - - - - - - - - - - - - - - - - FOUND "+f"{index} - {repo}", 30) + f"  {repos_with_paths[repo]}")
+            logging.debug(str.ljust(" - - - - - - - - - - - - - - - - - FOUND "+f"{index} - {repo}", 30) + f"  {repos_with_paths[repo]}")
             
             # the default in inverted commas is returned if value not in dict
             repo_to_check_path = repos_with_paths.pop(repo, "lightening_bolts_of_wtf?")                                             
             
-            print(f"\n\nChecking REPO: {repo}     - - - - - <")
+            logging.debug(f"\n\nChecking REPO: {repo}     - - - - - <")
             pprint(repo_to_check_path)
             os.chdir( Path(repo_to_check_path).joinpath(repo) )
-            #print(os.getcwd())
+            #logging.debug(os.getcwd())
             
             repo_status = subprocess.run(['git', 'status'], stdout=subprocess.PIPE).stdout.decode('utf-8')
             #repo_status = subprocess.run(['git status', ''], stdout=subprocess.PIPE).stdout.decode('utf-8')
             
-            print(f"\n- - returned from shell - - {repo}")
-            print(repo_status)
+            logging.debug(f"\n- - returned from shell - - {repo}")
+            logging.debug(repo_status)
             repo_report[repo] = process_git_status(repo_status)
-            print("- - - - - - - - - - - - - - - - - - - -|")
+            logging.debug("- - - - - - - - - - - - - - - - - - - -|")
             
         else:
-            print(str.ljust("      "+f"{index} - {repo}", 30) + "* * WARNING - NOT FOUND * *")
+            logging.debug(str.ljust("      "+f"{index} - {repo}", 30) + "* * WARNING - NOT FOUND * *")
 
     return repo_report
+
+
+def display_repo_data_to_console(repo_report):
+    logging.debug('')
+    logging.info("")
+    logging.info("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
+    logging.info(f"Status of all repos belonging to user: {repo_payload_dict['user']}")
+    logging.info("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
+    #pprint(repo_report)
+    for repo in repo_report:
+        if len(repo_report[repo]) == 0:
+            logging.info(f"==> Repo: {repo} up to date.")
+        else:
+            logging.info(f"==> Repo: {repo} outstanding.")
+            
+            for status in repo_report[repo]:
+                logging.info(f"\t{status.upper()}")
+                
+                for file in repo_report[repo][status]:
+                    logging.info(f"\t\t{file}")    
+    
+    logging.info("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
+
 
 
     
@@ -195,22 +213,9 @@ if __name__ == '__main__':
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     repo_report = get_status_of_local_git_repos(repo_list)
 
-    print("\n\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
-    print(f"Status of all repos belonging to user: {repo_payload_dict['user']}")            
+    display_repo_data_to_console(repo_report)
     #pprint(repo_report)
-    for repo in repo_report:
-        if len(repo_report[repo]) == 0:
-            print(f"==> Repo: {repo} complete.")
-        else:
-            print(f"==> Repo: {repo} outstanding.")
-            
-            for status in repo_report[repo]:
-                print(f"\t{status.upper()}")
-                
-                for file in repo_report[repo][status]:
-                    print(f"\t\t{file}")
-    
-    
-    print("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
 
-
+    logging.debug('Watch out!')  # will print a message to the console
+    logging.info(f"Logging ON. Logging to {local_scratch_dir}")
+    logging.warning(f"WARNING ON. Logging to {local_scratch_dir}")

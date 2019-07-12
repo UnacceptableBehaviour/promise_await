@@ -99,7 +99,7 @@
         method: 'POST',                                             // method (default is GET)
         headers: {'Content-Type': 'application/json' },             // JSON
         //body: JSON.stringify( { 'greeting':"Hello from browser" } ) // Payload
-        body: JSON.stringify( { 'repos':repoPostList } )            // New Payload        
+        body: JSON.stringify( { 'user':userName, 'repos':repoPostList } )            // New Payload        
 
       }).then( function(response) {
         return response.text();
