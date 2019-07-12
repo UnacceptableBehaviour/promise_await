@@ -52,6 +52,12 @@ def find_all_local_git_repos():
     
     return find_all_local_git_repos_under_directory(file_path) 
 
+
+def get_list_of_files_from_gits_status_subset(text, header=''):
+    
+    return ['file_one.js','file_two.txt']
+
+
 def process_git_status(git_status_response):
     status_dict = {}
         
@@ -77,6 +83,30 @@ def process_git_status(git_status_response):
     # 
     # 	antenna_physics.txt
     
+    # any of the above section may or may not be present in the git status output.
+    # start at the end and remove sections one by one
+    search_and_split_list = {'untracked':'Untracked files:',
+                             'not_satged':'Changes not staged for commit:',
+                             'changes_to_commit':'Changes to be committed:'}
+    TO_KEEP_PROCESSING = 0
+    OF_INTEREST = 1
+    
+    for key in search_and_split_list:
+        
+        # see if section header is in the output
+        #if git_status_response.find(search_and_split_list[key]) > -1:   # return position or -1 not found
+        if search_and_split_list[key] in git_status_response:            # returns True or False
+            
+            # split the end off and retrive files
+            print(f">>>> splitting S {search_and_split_list[key]}")
+            halves = git_status_response.split(search_and_split_list[key])
+            pprint(len(halves))
+            print(halves[TO_KEEP_PROCESSING])
+            print("   = = = = = =   ")
+            print(halves[OF_INTEREST])
+            print(f">>>> splitting E Size:{len(halves)}")
+            
+            status_dict[key] = get_list_of_files_from_gits_status_subset(git_status_response)
     
 
     #print(regex_me)
@@ -147,10 +177,12 @@ if __name__ == '__main__':
     print(type(repo_payload_json_string))  # prints '<class 'str'>'
     print(repo_payload_json_string)
     
+    # this is what we'll receive in the request in the python code (SERVER) from a fetch(POST) in the JS (BROWSER)
     # convert from JSON string to DICT - load string
     repo_dict = json.loads(repo_payload_json_string)
     print(type(repo_dict))  # prints '<class 'dict'>'
     
+    # create a list of repo names to work with (and compare to local repos)    
     repo_list = repo_dict['repos']
     print("----")
     pprint(repo_list)
@@ -193,7 +225,7 @@ if __name__ == '__main__':
             
             print(f"\n\nChecking REPO: {repo}")
             pprint(repo_to_check_path)
-            os.chdir(Path(repo_to_check_path).joinpath(repo))
+            os.chdir( Path(repo_to_check_path).joinpath(repo) )
             print(os.getcwd())
             
             repo_status = subprocess.run(['git', 'status'], stdout=subprocess.PIPE).stdout.decode('utf-8')
@@ -202,7 +234,8 @@ if __name__ == '__main__':
             print(repo_status)
             repo_report[repo] = process_git_status(repo_status)
             print("- - -|")
-            break
+            break   # just do 1 for now while developing the code
+            
             
         else:
             print(str.ljust("      "+f"{index} - {repo}", 30) + "* * WARNING - NOT FOUND * *")
