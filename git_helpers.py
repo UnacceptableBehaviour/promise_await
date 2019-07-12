@@ -129,6 +129,8 @@ def process_git_status(git_status_response):
 def get_status_of_local_git_repos(repo_list, debug_level=0):
     repo_report = {}
 
+    repos_with_paths = find_all_local_git_repos()
+
     for index, repo in enumerate(repo_list):
         
         if repo in repos_with_paths:
@@ -213,9 +215,5 @@ if __name__ == '__main__':
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     repo_report = get_status_of_local_git_repos(repo_list)
 
-    display_repo_data_to_console(repo_report)
+    #display_repo_data_to_console(repo_report)
     #pprint(repo_report)
-
-    logging.debug('Watch out!')  # will print a message to the console
-    logging.info(f"Logging ON. Logging to {local_scratch_dir}")
-    logging.warning(f"WARNING ON. Logging to {local_scratch_dir}")

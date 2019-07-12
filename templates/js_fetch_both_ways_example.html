@@ -21,11 +21,32 @@
 {% block content %}
 
 
+<!--  <div class="container">
+    <h1 class="display-4 mb-4">Fetch API Sandbox</h1>
+    <div class="d-flex">
+      <button class="btn btn-primary mr-4" id="getText">Get Text</button>
+      <button class="btn btn-success mr-4" id="getUsers">Get JSON</button>
+      <button class="btn btn-warning mr-4" id="getPosts">Get API DATA</button>
+    </div>
+    <hr>
+    <div id="output"></div>
+    <form id="addPost">
+      <div class="form-group">
+        <input type="text" id="title" class="form-control" placeholder="Title">
+      </div>
+      <div class="form-group">
+        <textarea id="body" class="form-control" placeholder="Body"></textarea>
+      </div>
+      <input type="submit" class="btn btn-secondary" value="Submit">
+    </form>
+  </div>-->
+
   <div class='container'>
-    <div class="container-fluid">
-      <button id='button-fetch-get'>Fetch GET</button>
-      <button id='button-fetch-post'>Fetch POST</button>
-      <button id='button-fetch-spare'>Spare</button>
+    <!--<div class="container-fluid">-->
+    <div class="d-flex">
+      <button class="btn btn-primary mr-4" id='button-fetch-get'>Fetch GET</button>
+      <button class="btn btn-success mr-4" id='button-fetch-post'>Fetch POST</button>
+      <button class="btn btn-warning mr-4" id='button-git-status'>GIT STATUS</button>
     </div>
     <div id="simple-output"></div>
     <br>
@@ -41,7 +62,7 @@
     outputDiv = document.getElementById('simple-output')
     buttonGet = document.getElementById('button-fetch-get')
     buttonPost = document.getElementById('button-fetch-post')
-    buttonSpare = document.getElementById('button-fetch-spare')
+    buttonGitSatus = document.getElementById('button-git-status')
     
     outputDiv.innerHTML = repoData['greeting']
     
@@ -51,7 +72,7 @@
     // or         () => { outputDiv.innerHTML = 'POST' }    
     buttonPost.addEventListener('click', fetchButtonPOST )    
     // but not    function() => { outputDiv.innerHTML = 'POST' }    
-    //buttonSpare.addEventListener('click', function() => { outputDiv.innerHTML = 'POST' } )
+    //buttonGitSatus.addEventListener('click', function() => { outputDiv.innerHTML = 'POST' } )
 
 
     userName = 'UnacceptableBehaviour';      
@@ -77,7 +98,7 @@
             console.log(repoPostList);
             
             output +=
-              '<div class="repo">' +
+              '<div id="'+repos[i].name+'" class="repo">' +
               '<img src="'+repos[i].owner.avatar_url+'" width="35" height="35">' +
               '<ul>' +
               '<li>repo: '+repos[i].name+'</li>' +
@@ -102,18 +123,75 @@
         body: JSON.stringify( { 'user':userName, 'repos':repoPostList } )            // New Payload        
 
       }).then( function(response) {
-        return response.text();
+        
+        console.log("  - - - -|- - - - response")
+        console.log(response);
+        console.log("  - - - -|- - - -")
+        console.log(typeof(response))
+        console.log("  - - - -|- - - -")
+        
+        //return response.text();
+        return response.json();
       
-      }).then( function(text) {
+      }).then( function(data) {
+        
+        // iterator 1
+        //text = 'iterator 1 style - - - - - - - - - - - - - - - - - - - - '
+        //console.log(`POST response: ${text}`);
+        //Object.entries(data).forEach(
+        //    ([key, value]) => console.log(key, value)
+        //);
+        
+        // iterator 2
+        text = 'iterator 2 style- - - - - - - - - - - - - - - - - - - - '
+        console.log(`POST response: ${text}`);        
+        for (const [key, value] of Object.entries(data)) {
+            console.log(key, value);
+            
+            repo_container_div = document.getElementById(key);
+            //repo_list =  repo_container_div.getElementsByTagName("UL");
+            
+            if (Object.keys(value).length === 0) {
+              // repo has no outstanding
+              console.log(`repo ${key} has ${Object.keys(value).length} entries oustanding`)
+              // make green - all up to date
+              status_colour = '#DAFF26';
+            } else {
+              // make RED - oustanding Items
+              status_colour = '#FF3881';
+            }
+            
+            repo_container_div.style.backgroundColor = status_colour;
+            //repo_list.style.backgroundColor = 'white';
+            
+            //if typeof value['changes_to_commit'] === "undefined" &&
+            //   typeof value['not_staged'] === "undefined" &&
+            //   typeof value['untracked'] === "undefined"
+            //{
+            //    
+            //} else {
+            //  
+            //}
+            //console.log(`changes_to_commit ${value['changes_to_commit'].length}`)
+            //console.log(`not_staged ${value['not_staged'].length}`)
+            //console.log(`untracked ${value['untracked'].length}`)
+            //
+            //var size = value.length
+            //
+            //console.log(`repo ${key} has ${size} entries oustanding`)
+            //
+            //if (size === 0) {
+            //  console.log(`repo ${key} has ${size}`)
+            //
+            //}
+            
+        }
+        
         console.log(`POST response: ${text}`);      // should read "POST response: OK"
       });
       
     }
     
-    // method 2 - ajax - in script
-    
-    
-    // method 3 - fetch API - built into browser
     
   </script>
   

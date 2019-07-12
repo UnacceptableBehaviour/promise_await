@@ -3,14 +3,15 @@
 from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 # dev remove
 from helpers import get_igd_vocab
-from git_helpers import find_all_local_git_repos
-
+from git_helpers import find_all_local_git_repos, get_status_of_local_git_repos
+import json
 
 # giza a look
 from pprint import pprint
@@ -71,12 +72,19 @@ def js_fetch_test():
     
     # POST request
     if request.method == 'POST':
-        print('Incoming . . yeay!! . . victory dance . . . aruba aruba aruba')
+        #print('Incoming . . yeay!! . . victory dance . . . aruba aruba aruba')
         pprint(request)
-        posted_data = request.get_json() # parse as JSON
-        print(type(posted_data))  
+        posted_data = request.get_json() # parse JSON into DICT        
         print(posted_data)
-        return 'OK', 200
+        print("= - = - = - = - = - = - = POST S")
+        print(posted_data['repos'])
+        repo_report = get_status_of_local_git_repos(posted_data['repos'])
+        
+        repo_report['greeting'] = 'Return from POST'
+        
+        #return 'OK', 200
+        return json.dumps(repo_report), 200
+        #return render_template('js_fetch_both_ways_example.html', repo_data=repo_report)
 
     # GET request
     else:
