@@ -43,30 +43,13 @@
       margin-bottom: 0;
     }
 </style>
+<script>
+  var repoData = {{ repo_data|tojson }};       // convert info using tojson filter
+</script>
 {% endblock %}
 
 {% block content %}
-
-
-<!--  <div class="container">
-    <h1 class="display-4 mb-4">Fetch API Sandbox</h1>
-    <div class="d-flex">
-      <button class="btn btn-primary mr-4" id="getText">Get Text</button>
-      <button class="btn btn-success mr-4" id="getUsers">Get JSON</button>
-      <button class="btn btn-warning mr-4" id="getPosts">Get API DATA</button>
-    </div>
-    <hr>
-    <div id="output"></div>
-    <form id="addPost">
-      <div class="form-group">
-        <input type="text" id="title" class="form-control" placeholder="Title">
-      </div>
-      <div class="form-group">
-        <textarea id="body" class="form-control" placeholder="Body"></textarea>
-      </div>
-      <input type="submit" class="btn btn-secondary" value="Submit">
-    </form>
-  </div>-->
+  
 
   <div class='container card repo-outer'>
     <!--example of target output-->
@@ -86,18 +69,18 @@
           </ul>
         </div>
         <div class='card'>
-        <ul id="00_example_ul_not_staged">
-          <li>NOT_STAGED: 3</li>
-          <li>README.md</li>
-          <li>templates/index.html</li>
-          <li>holy.grail</li>
-        </ul>
+          <ul id="00_example_ul_not_staged">
+            <li>NOT_STAGED: 3</li>
+            <li>README.md</li>
+            <li>templates/index.html</li>
+            <li>holy.grail</li>
+          </ul>
         </div>
         <div class='card'>
-        <ul id="00_example_ul_untracked">          
-          <li>UNTRACKED: 1</li>
-          <li>deep_in_the_bowels/nutrients.html</li>
-        </ul>
+          <ul id="00_example_ul_untracked">          
+            <li>UNTRACKED: 1</li>
+            <li>deep_in_the_bowels/nutrients.html</li>
+          </ul>
         </div>
       </div>
       
@@ -119,165 +102,6 @@
   </div>
 
   
-  <script>
-    
-    // create an example report box
-    status_colour = '#FF3881';                
-    example_repo_container_div = document.getElementById('00_example')    
-    example_repo_container_div.style.backgroundColor = status_colour;
-  
-            
-    
-    var repoData = {{ repo_data|tojson }};       // convert info using tojson filter      
-    console.log(`repoData JS ${repoData['greeting']} - inline CONCLUDED`);  // sanity check
-    
-    var repoPostList = [];
-    
-    outputDiv = document.getElementById('simple-output')
-    buttonGet = document.getElementById('button-fetch-get')
-    buttonPost = document.getElementById('button-fetch-post')
-    buttonGitSatus = document.getElementById('button-git-status')
-    
-    outputDiv.innerHTML = repoData['greeting']
-    
-    
-    //            function() { outputDiv.innerHTML = 'GET' }     
-    buttonGet.addEventListener('click', fetchButtonGET )    
-    // or         () => { outputDiv.innerHTML = 'POST' }    
-    buttonPost.addEventListener('click', fetchButtonPOST )    
-    // but not    function() => { outputDiv.innerHTML = 'POST' }    
-    //buttonGitSatus.addEventListener('click', function() => { outputDiv.innerHTML = 'POST' } )
-
-
-    userName = 'UnacceptableBehaviour';      
-    console.log(`getting repos for user ${userName}`);
-      
-  
-    function fetchButtonGET() {
-      outputDiv.innerHTML = 'GET';
-
-      fetch( `https://api.github.com/users/${userName}/repos` )
-        .then( function(response) {
-          return response.text();
-        
-        }).then( function(text) {
-          //console.log(`GET response: ${text}`);      // should read "Rendered HTML from route"
-          
-          var repos = JSON.parse(text);
-
-          var output = '';
-          for(var i in repos){
-            
-            repoPostList.push(repos[i].name);    // populate array with repo names
-            console.log(repoPostList);
-            
-            output +=
-              '<div id="'+repos[i].name+'" class="repo">' +
-              '<img src="'+repos[i].owner.avatar_url+'" width="35" height="35">' +
-              '<ul id="'+repos[i].name+'_ul">' +
-              '<li>repo: '+repos[i].name+'</li>' +
-              '<li>'+repos[i].description+'</li>' +
-              '</ul>' +
-              '</div>';
-          } 
-
-          document.getElementById('repos').innerHTML = output;          
-
-        });      
-
-    }
-    
-    function fetchButtonPOST() {
-      outputDiv.innerHTML = 'POST';
-      
-      fetch( '/js_fetch_test', {
-        method: 'POST',                                             // method (default is GET)
-        headers: {'Content-Type': 'application/json' },             // JSON
-        //body: JSON.stringify( { 'greeting':"Hello from browser" } ) // Payload
-        body: JSON.stringify( { 'user':userName, 'repos':repoPostList } )            // New Payload        
-
-      }).then( function(response) {
-        
-        console.log("  - - - -|- - - - response")
-        console.log(response);
-        console.log("  - - - -|- - - -")
-        console.log(typeof(response))
-        console.log("  - - - -|- - - -")
-        
-        //return response.text();
-        return response.json();
-      
-      }).then( function(data) {
-        
-        // iterator 1
-        //text = 'iterator 1 style - - - - - - - - - - - - - - - - - - - - '
-        //console.log(`POST response: ${text}`);
-        //Object.entries(data).forEach(
-        //    ([key, value]) => console.log(key, value)
-        //);
-        
-        // iterator 2
-        text = 'iterator 2 style- - - - - - - - - - - - - - - - - - - - '
-        console.log(`POST response: ${text}`);        
-        for (const [key, value] of Object.entries(data)) {
-            console.log(key, value);
-            
-            repo_container_div = document.getElementById(key);
-            repo_list = document.getElementsByTagName(`${key}_ul`);
-            
-            
-            if (Object.keys(value).length === 0) {
-              // repo has no outstanding
-              console.log(`repo ${key} has ${Object.keys(value).length} entries oustanding`)
-              // make green - all up to date
-              status_colour = '#DAFF26';
-            } else {
-              // make RED - oustanding Items
-              status_colour = '#FF3881';
-            }
-            
-            repo_container_div.style.backgroundColor = status_colour;
-            
-            console.log('====================');
-            console.log(repo_container_div.children.length)
-            console.log('====================');
-            
-            //repo_list.style.backgroundColor = 'white';
-            
-            //if typeof value['changes_to_commit'] === "undefined" &&
-            //   typeof value['not_staged'] === "undefined" &&
-            //   typeof value['untracked'] === "undefined"
-            //{
-            //    
-            //} else {
-            //  
-            //}
-            //console.log(`changes_to_commit ${value['changes_to_commit'].length}`)
-            //console.log(`not_staged ${value['not_staged'].length}`)
-            //console.log(`untracked ${value['untracked'].length}`)
-            //
-            //var size = value.length
-            //
-            //console.log(`repo ${key} has ${size} entries oustanding`)
-            //
-            //if (size === 0) {
-            //  console.log(`repo ${key} has ${size}`)
-            //
-            //}
-            
-        }
-        
-        text = 'badonkadonk'
-        console.log(`POST response: ${text}`);      // should read "POST response: OK"
-      });
-      
-    }
-    
-    
-  </script>
-  
-  <!--<script src="static/callbacks.js"></script>-->  
-  
-
+  <script src="static/js_fetch_both_ways_example.js"></script>
 
 {% endblock %}

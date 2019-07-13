@@ -71,8 +71,9 @@ def get_list_of_files_from_gits_status_subset(text, header=''):
     # re.DOTALL, re.S  -  Make . match any character, including newlines.
     # re.MULTILINE, re.M - Multi-line matching, affecting ^ and $.
     # return re.findall(r'\t(.*?)$', text, re.M | re.S)
-    
-    return re.findall(r'\t(.*?)$', text, re.M)  # return list ['file_one.js','file_two.txt']
+    subset_of_files = re.findall(r'\t(.*?)$', text, re.M)  # return list ['file_one.js','file_two.txt']
+        
+    return [ a.replace('modified:   ','') for a in subset_of_files ]
     
 
 
