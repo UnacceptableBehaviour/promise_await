@@ -1,12 +1,12 @@
 // <script src="static/js_fetch_both_ways_example.js"></script>
 
-function create_repo_report_element(){
+function create_repo_report_element(repo_name_key, data){
   // report contents:
-  // name                 data - key
-  // description          data[key].desc
-  // changes_to_commit    data[key].changes_to_commit
-  // not_staged           data[key].not_staged
-  // untracked            data[key].untracked
+  // name                 data - repo_name_key
+  // description          data[repo_name_key].desc
+  // changes_to_commit    data[repo_name_key].changes_to_commit
+  // not_staged           data[repo_name_key].not_staged
+  // untracked            data[repo_name_key].untracked
 
 
   // template for repo report card
@@ -14,21 +14,21 @@ function create_repo_report_element(){
       <!--example of target output-->
       <!--<img src="https://avatars2.githubusercontent.com/u/8268797?v=4" width="35" height="35"> -->
       <div class="card-header">
-        <h5 id='00_example_tile'>Repo: 00_example</h5>
-        <p id='00_example_desc'>This is what we're aiming to create using JS & returned data:</p>
+        <h5 id='${repo_name_key}_tile'>Repo: ${repo_name_key}</h5>
+        <p id='${repo_name_key}_desc'>${data[repo_name_key].desc}</p>
       </div>
       
       <div id="repo-output">
-        <div id="00_example" class="repo-inner">
+        <div id="${repo_name_key}" class="repo-inner">
           <div class='card'>
-            <ul id="00_example_ul_changes_to_commit">
+            <ul id="${repo_name_key}_ul_changes_to_commit">
               <li>CHANGES_TO_COMMIT: 2</li>
               <li>README.md</li>
               <li>templates/index.html</li>
             </ul>
           </div>
           <div class='card'>
-          <ul id="00_example_ul_not_staged">
+          <ul id="${repo_name_key}_ul_not_staged">
             <li>NOT_STAGED: 3</li>
             <li>README.md</li>
             <li>templates/index.html</li>
@@ -36,7 +36,7 @@ function create_repo_report_element(){
           </ul>
           </div>
           <div class='card'>
-          <ul id="00_example_ul_untracked">          
+          <ul id="${repo_name_key}_ul_untracked">          
             <li>UNTRACKED: 1</li>
             <li>deep_in_the_bowels/nutrients.html</li>
           </ul>
@@ -295,7 +295,7 @@ function fetchButtonGitStatus(){
       console.log(data[key].not_staged);
       console.log(data[key].untracked);
 
-      output += create_repo_report_element();
+      output += create_repo_report_element(key, data);
     
     }
     
