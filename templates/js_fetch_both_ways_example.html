@@ -2,18 +2,45 @@
 
 {% block header %}
 <style>
-    .repo{
+    .repo-inner {
       display: flex;
       background:#f4f4f4;
       padding:10px;
-      margin-bottom:10px;
+      margin-bottom:0px;
     }
 
-    .repo ul{
+    .repo-outer ul{
       list-style: none;
       padding-left: 10px;
       margin-top:0px;
       margin-bottom:5px;
+    }
+    
+    .repo-inner ul{
+      list-style: none;
+      padding-left: 10px;
+      margin-top:0px;
+      margin-bottom:5px;
+    }
+    
+    .card ul{
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+    
+    .card {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+    
+    .card-header {
+      padding-top: 0px;
+      padding-bottom: 0px;      
+    }
+    
+    
+    p {
+      margin-bottom: 0;
     }
 </style>
 {% endblock %}
@@ -41,6 +68,44 @@
     </form>
   </div>-->
 
+  <div class='container card repo-outer'>
+    <!--example of target output-->
+    <!--<img src="https://avatars2.githubusercontent.com/u/8268797?v=4" width="35" height="35"> -->
+    <div class="card-header">
+      <h5 id='00_example_tile'>Repo: 00_example</h5>
+      <p id='00_example_desc'>This is what we're aiming to create using JS & returned data:</p>
+    </div>
+    
+    <div id="repo-output">
+      <div id="00_example" class="repo-inner">
+        <div class='card'>
+          <ul id="00_example_ul_changes_to_commit">
+            <li>CHANGES_TO_COMMIT: 2</li>
+            <li>README.md</li>
+            <li>templates/index.html</li>
+          </ul>
+        </div>
+        <div class='card'>
+        <ul id="00_example_ul_not_staged">
+          <li>NOT_STAGED: 3</li>
+          <li>README.md</li>
+          <li>templates/index.html</li>
+          <li>holy.grail</li>
+        </ul>
+        </div>
+        <div class='card'>
+        <ul id="00_example_ul_untracked">          
+          <li>UNTRACKED: 1</li>
+          <li>deep_in_the_bowels/nutrients.html</li>
+        </ul>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <hr>
+
   <div class='container'>
     <!--<div class="container-fluid">-->
     <div class="d-flex">
@@ -52,8 +117,17 @@
     <br>
     <div id="repos"></div>
   </div>
+
   
   <script>
+    
+    // create an example report box
+    status_colour = '#FF3881';                
+    example_repo_container_div = document.getElementById('00_example')    
+    example_repo_container_div.style.backgroundColor = status_colour;
+  
+            
+    
     var repoData = {{ repo_data|tojson }};       // convert info using tojson filter      
     console.log(`repoData JS ${repoData['greeting']} - inline CONCLUDED`);  // sanity check
     
@@ -100,7 +174,7 @@
             output +=
               '<div id="'+repos[i].name+'" class="repo">' +
               '<img src="'+repos[i].owner.avatar_url+'" width="35" height="35">' +
-              '<ul>' +
+              '<ul id="'+repos[i].name+'_ul">' +
               '<li>repo: '+repos[i].name+'</li>' +
               '<li>'+repos[i].description+'</li>' +
               '</ul>' +
@@ -149,7 +223,8 @@
             console.log(key, value);
             
             repo_container_div = document.getElementById(key);
-            //repo_list =  repo_container_div.getElementsByTagName("UL");
+            repo_list = document.getElementsByTagName(`${key}_ul`);
+            
             
             if (Object.keys(value).length === 0) {
               // repo has no outstanding
@@ -162,6 +237,11 @@
             }
             
             repo_container_div.style.backgroundColor = status_colour;
+            
+            console.log('====================');
+            console.log(repo_container_div.children.length)
+            console.log('====================');
+            
             //repo_list.style.backgroundColor = 'white';
             
             //if typeof value['changes_to_commit'] === "undefined" &&
@@ -187,6 +267,7 @@
             
         }
         
+        text = 'badonkadonk'
         console.log(`POST response: ${text}`);      // should read "POST response: OK"
       });
       
