@@ -1,13 +1,17 @@
 // <script src="static/js_fetch_both_ways_example.js"></script>
+COLOUR_WARNING = '#FF3881';
+COLOUR_WE_ARE_GOOD = '#59AF1C';
 
+// conventions in this file:
+// html hardcodeed tags (searchable) use hyphen:
+//                                  repo-outer, repo-output, button-fetch-get
+//
+// html constructed tags (not searchable) use underscore:
+//                                  00_flask_ul_changes_to_commit from ${repo_name_key}_ul_changes_to_commit
+
+
+// function not called - example of template 
 function create_repo_report_element(repo_name_key, repo_data){
-  // report contents:
-  // name                 repo_data - repo_name_key
-  // description          repo_data[repo_name_key].desc
-  // changes_to_commit    repo_data[repo_name_key].changes_to_commit
-  // not_staged           repo_data[repo_name_key].not_staged
-  // untracked            repo_data[repo_name_key].untracked
-
 
   // template for repo report card
   html_template = `<div class='container card repo-outer'>
@@ -48,36 +52,133 @@ function create_repo_report_element(repo_name_key, repo_data){
     
     return html_template;
     
-}  
-  
+}
 
+
+// create a card with a list of files for each REPO file category(card_key_as_title)
+function create_repo_report_file_list_card(repo_name_key, card_key_as_title, file_list){
+
+  // construct the list to go in the card
+  var file_list_as_html = '';
+  
+  file_list.forEach( function(element) {
+    file_list_as_html += `<li>${element}</li>`;
+  });
+  
+  var card_element_as_html = `<div class='card'>
+                                <ul id="${repo_name_key}_ul_${card_key_as_title}">
+                                  <li>${card_key_as_title.toUpperCase()}: ${file_list.length}</li>
+                                  ${file_list_as_html}
+                                </ul>
+                              </div>`;
+  
+  return card_element_as_html;
+}
+
+// create bottom half of report card - WARNING VERSION
+// => background colour ALREADY decided!
+// at least ONE array exists in repo_data
+function create_repo_report_output_section(repo_name_key, repo_data){
+  //EG incoming
+  //repo_name_key = 00_flask    file_lists
+  //repo_data = { 00_flask : {  changes_to_commit: ["README.md", "diffusion.cc"]
+  //                            desc: "Flask tutorial - newbie level"
+  //                            not_staged: ["templates/index.html"]
+  //                            untracked: ["antenna_physics.txt"]    }
+  
+  // opening html - backround colour: WARNING
+  var output_section_html = `<div id="repo-output">
+        <div id="${repo_name_key}" class="repo-inner">`;
+  
+  
+  file_lists = repo_data[repo_name_key];
+  delete file_lists['desc'];
+  
+  // DIFFERENT WYS TO DO THIS LOOP
+  // bench: https://hackernoon.com/5-techniques-to-iterate-over-javascript-object-entries-and-their-performance-6602dcb708a8
+  //
+  // could use an array of keys to control the order if necessary
+  // loop through arrays - skip description (desc)
+  for (let [card_key_as_title, file_list] of Object.entries(file_lists)) {    // TICK
+    console.log('for (let [key, file_list] of Object.entries(file_lists))')
+    console.log(card_key_as_title);
+    console.log(file_list);
+    console.log('...........');
+    output_section_html += create_repo_report_file_list_card(repo_name_key, card_key_as_title, file_list);
+  }
+  // recode using for in - just want to see if above works  
+  // for (var in)
+  // also
+  //Object.entries(repo_data).forEach(
+  //    ([key, value]) => console.log(key, value)
+  //);
+  
+  
+  // closing html
+  output_section_html +=  `</div></div>`;
+  
+  return output_section_html;
+}
+    
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+// create inner html
+//
+// if repo has outstanding changes - show what they are
+//                              colour back magenta red
+// if no oustanding changes
+//                              colour back green
+//
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// COLOUR_WARNING
+// COLOUR_WE_ARE_GOOD
 function create_filled_in_status_element(repo_name_key, repo_data){
+  //EG incoming
+  //repo_name_key = 00_flask
+  //repo_data = { 00_flask : {  changes_to_commit: ["README.md"]
+  //                            desc: "Flask tutorial - newbie level"
+  //                            not_staged: ["templates/index.html"]
+  //                            untracked: ["antenna_physics.txt"]    }
+  // report contents:
+  // name                 repo_data - repo_name_key
+  // description          repo_data[repo_name_key].desc
+  // changes_to_commit    repo_data[repo_name_key].changes_to_commit
+  // not_staged           repo_data[repo_name_key].not_staged
+  // untracked            repo_data[repo_name_key].untracked
 
-  // create element
+  var description = repo_data[repo_name_key].desc;
   
-  // set innner_htlm
-  repo_element.inner_html = create_repo_report_element(repo_name_key, repo_data);
-
-  // colourcode back ground red / green
+  // is is a GREEN card or a RED card?  
+  var output_section_html = '';
   
-  // if red:
-  // add files to each <ul>
-  // CHANGES_TO_COMMIT: 2
-  // NOT_STAGED: 3
-  // UNTRACKED: 1
-  //-
-  //<li>CHANGES_TO_COMMIT: 2</li>
-  //<li>README.md</li>
-  //<li>templates/index.html</li>
+  //create_repo_report_output_section(repo_name_key, repo_data);
+  
+  // if (repo_data[repo_name_key].keys > 1) {  NO WORK
+  if (Object.keys(repo_data[repo_name_key]).length > 1) {  // we have file lists  
+    // create WARNING output
+    output_section_html = create_repo_report_output_section(repo_name_key, repo_data);
+  
+  } else {
+    // create OK output
+    output_section_html = `<div>Repo: ${repo_name_key} is up to date.</div>`;
+  }
+  
+  
+  // template for repo report card
+  html_template =  `<div class='container card repo-outer'>                                        
+                      <div class="card-header">
+                        <h5 id='${repo_name_key}_tile'>Repo: ${repo_name_key}</h5>
+                        <p id='${repo_name_key}_desc'>${description}</p>
+                      </div>
+                      ${output_section_html}
+                    </div>`;
 
-  // add element to DOM
-  // add leaefs to <div id="repos">
+  return html_template;
   
 }
   
   
 // create an example report box
-status_colour = '#FF3881';                
+status_colour = COLOUR_WARNING;
 example_repo_container_div = document.getElementById('00_example');
 example_repo_container_div.style.backgroundColor = status_colour;
 
@@ -177,6 +278,7 @@ function fetchButtonPOST() {
     text = 'iterator 2 style- - - - - - - - - - - - - - - - - - - - '
     console.log(`POST response: ${text}\n ${data}`);
     
+    // gor through oject keys - list of outstanting file by category
     for (const [key, value] of Object.entries(data)) {
         console.log(key, value);
         
@@ -193,10 +295,10 @@ function fetchButtonPOST() {
           // repo has no outstanding
           console.log(`repo ${key} has ${Object.keys(value).length} entries oustanding`)
           // make green - all up to date
-          status_colour = '#59AF1C';
+          status_colour = COLOUR_WE_ARE_GOOD;
         } else {
           // make RED - oustanding Items
-          status_colour = '#FF3881';
+          status_colour = COLOUR_WARNING;
         }
         
         repo_container_div.style.backgroundColor = status_colour;
@@ -283,9 +385,11 @@ function fetchButtonGitStatus(){
       console.log(repo_data[key].untracked);
       console.log('#-=#=-#-S');
       console.log(repo_data[key]);
+      //console.log(create_repo_report_file_list_card(key, 'changes_to_commit', repo_data[key].changes_to_commit));
       console.log('#-=#=-#-E');
       output += create_repo_report_element(key, repo_data);
-    
+      output += create_filled_in_status_element(key, repo_data);
+      break;
     }
     
     document.getElementById('repos').innerHTML = output;          
@@ -309,10 +413,10 @@ function fetchButtonGitStatus(){
           // repo has no outstanding
           console.log(`repo ${key} has ${Object.keys(value).length} entries oustanding`)
           // make green - all up to date
-          status_colour = '#59AF1C';
+          status_colour = COLOUR_WE_ARE_GOOD;
         } else {
           // make RED - oustanding Items
-          status_colour = '#FF3881';
+          status_colour = COLOUR_WARNING;
         }
         
         repo_container_div.style.backgroundColor = status_colour;
