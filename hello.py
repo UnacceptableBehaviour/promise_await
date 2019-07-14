@@ -80,7 +80,7 @@ def js_fetch_test():
         print(posted_data['repos'])
         repo_report = get_status_of_local_git_repos(posted_data['repos'])
         
-        repo_report['greeting'] = 'Return from POST'
+        #repo_report['greeting'] = 'Return from POST'
         
         #return 'OK', 200
         return json.dumps(repo_report), 200

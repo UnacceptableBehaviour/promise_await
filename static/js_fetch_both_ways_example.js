@@ -61,9 +61,13 @@ function create_repo_report_file_list_card(repo_name_key, card_key_as_title, fil
   // construct the list to go in the card
   var file_list_as_html = '';
   
-  file_list.forEach( function(element) {
-    file_list_as_html += `<li>${element}</li>`;
-  });
+  try {
+
+    file_list.forEach( function(element) {
+      file_list_as_html += `<li>${element}</li>`;
+    });
+
+  } catch (error) { console.log(`ERROR: ${error.name}`); }
   
   var card_element_as_html = `<div class='card'>
                                 <ul id="${repo_name_key}_ul_${card_key_as_title}">
@@ -87,8 +91,8 @@ function create_repo_report_output_section(repo_name_key, repo_data){
   //                            untracked: ["antenna_physics.txt"]    }
   
   // opening html - backround colour: WARNING
-  var output_section_html = `<div id="repo-output">
-        <div id="${repo_name_key}" class="repo-inner">`;
+  var output_section_html = `<div id="repo-output" style="background-color:${COLOUR_WARNING}">
+        <div id="${repo_name_key}" class="repo-output-warn">`;
   
   
   file_lists = repo_data[repo_name_key];
@@ -99,20 +103,32 @@ function create_repo_report_output_section(repo_name_key, repo_data){
   //
   // could use an array of keys to control the order if necessary
   // loop through arrays - skip description (desc)
-  for (let [card_key_as_title, file_list] of Object.entries(file_lists)) {    // TICK
-    console.log('for (let [key, file_list] of Object.entries(file_lists))')
+  //for (let [card_key_as_title, file_list] of Object.entries(file_lists)) {    // TICK - WORK
+  //  console.log('for (let [key, file_list] of Object.entries(file_lists))')
+  //  console.log(card_key_as_title);
+  //  console.log(file_list);
+  //  console.log('...........');
+  //  output_section_html += create_repo_report_file_list_card(repo_name_key, card_key_as_title, file_list);
+  //}
+  // - - 
+  //Object.entries(repo_data).forEach(                // NEEDS WORK
+  //    ([card_key_as_title, file_list]) => {
+  //        console.log('Object.entries(repo_data).forEach(')
+  //        console.log(card_key_as_title);
+  //        console.log(file_list);
+  //        console.log('...........');
+  //        output_section_html += create_repo_report_file_list_card(repo_name_key, card_key_as_title, file_list);
+  //        }
+  //);
+  // recode using for in - just want to see if above works  
+  for (var card_key_as_title in file_lists) {
+    file_list = file_lists[card_key_as_title];
+    console.log('for (var card_key_as_title in file_lists)')
     console.log(card_key_as_title);
     console.log(file_list);
-    console.log('...........');
-    output_section_html += create_repo_report_file_list_card(repo_name_key, card_key_as_title, file_list);
+    console.log('...........');    
+    output_section_html += create_repo_report_file_list_card(repo_name_key, card_key_as_title, file_list);  
   }
-  // recode using for in - just want to see if above works  
-  // for (var in)
-  // also
-  //Object.entries(repo_data).forEach(
-  //    ([key, value]) => console.log(key, value)
-  //);
-  
   
   // closing html
   output_section_html +=  `</div></div>`;
@@ -159,7 +175,7 @@ function create_filled_in_status_element(repo_name_key, repo_data){
   
   } else {
     // create OK output
-    output_section_html = `<div>Repo: ${repo_name_key} is up to date.</div>`;
+    output_section_html = `<div id="repo-output" class="repo-output-good" style="background-color:${COLOUR_WE_ARE_GOOD}">Repo: ${repo_name_key} is up to date.</div>`;
   }
   
   
@@ -387,9 +403,9 @@ function fetchButtonGitStatus(){
       console.log(repo_data[key]);
       //console.log(create_repo_report_file_list_card(key, 'changes_to_commit', repo_data[key].changes_to_commit));
       console.log('#-=#=-#-E');
-      output += create_repo_report_element(key, repo_data);
+      //output += create_repo_report_element(key, repo_data);
       output += create_filled_in_status_element(key, repo_data);
-      break;
+      //output += create_repo_report_output_section(key, repo_data);
     }
     
     document.getElementById('repos').innerHTML = output;          
