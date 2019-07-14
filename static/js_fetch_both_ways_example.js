@@ -1,12 +1,12 @@
 // <script src="static/js_fetch_both_ways_example.js"></script>
 
-function create_repo_report_element(repo_name_key, data){
+function create_repo_report_element(repo_name_key, repo_data){
   // report contents:
-  // name                 data - repo_name_key
-  // description          data[repo_name_key].desc
-  // changes_to_commit    data[repo_name_key].changes_to_commit
-  // not_staged           data[repo_name_key].not_staged
-  // untracked            data[repo_name_key].untracked
+  // name                 repo_data - repo_name_key
+  // description          repo_data[repo_name_key].desc
+  // changes_to_commit    repo_data[repo_name_key].changes_to_commit
+  // not_staged           repo_data[repo_name_key].not_staged
+  // untracked            repo_data[repo_name_key].untracked
 
 
   // template for repo report card
@@ -15,31 +15,30 @@ function create_repo_report_element(repo_name_key, data){
       <!--<img src="https://avatars2.githubusercontent.com/u/8268797?v=4" width="35" height="35"> -->
       <div class="card-header">
         <h5 id='${repo_name_key}_tile'>Repo: ${repo_name_key}</h5>
-        <p id='${repo_name_key}_desc'>${data[repo_name_key].desc}</p>
+        <p id='${repo_name_key}_desc'>${repo_data[repo_name_key].desc}</p>
       </div>
       
       <div id="repo-output">
         <div id="${repo_name_key}" class="repo-inner">
           <div class='card'>
             <ul id="${repo_name_key}_ul_changes_to_commit">
-              <li>CHANGES_TO_COMMIT: 2</li>
-              <li>README.md</li>
-              <li>templates/index.html</li>
+              <li>CHANGES_TO_COMMIT: ${repo_data[repo_name_key].changes_to_commit.length}</li>
+            
             </ul>
           </div>
           <div class='card'>
-          <ul id="${repo_name_key}_ul_not_staged">
-            <li>NOT_STAGED: 3</li>
-            <li>README.md</li>
-            <li>templates/index.html</li>
-            <li>holy.grail</li>
-          </ul>
+            <ul id="${repo_name_key}_ul_not_staged">
+              <li>NOT_STAGED: ${repo_data[repo_name_key].not_staged.length}</li>
+              <li>README.md</li>
+              <li>templates/index.html</li>
+              <li>holy.grail</li>
+            </ul>
           </div>
           <div class='card'>
-          <ul id="${repo_name_key}_ul_untracked">          
-            <li>UNTRACKED: 1</li>
-            <li>deep_in_the_bowels/nutrients.html</li>
-          </ul>
+            <ul id="${repo_name_key}_ul_untracked">          
+              <li>UNTRACKED: ${repo_data[repo_name_key].untracked.length}</li>
+              <li>deep_in_the_bowels/nutrients.html</li>
+            </ul>
           </div>
         </div>
         
@@ -51,6 +50,30 @@ function create_repo_report_element(repo_name_key, data){
     
 }  
   
+
+function create_filled_in_status_element(repo_name_key, repo_data){
+
+  // create element
+  
+  // set innner_htlm
+  repo_element.inner_html = create_repo_report_element(repo_name_key, repo_data);
+
+  // colourcode back ground red / green
+  
+  // if red:
+  // add files to each <ul>
+  // CHANGES_TO_COMMIT: 2
+  // NOT_STAGED: 3
+  // UNTRACKED: 1
+  //-
+  //<li>CHANGES_TO_COMMIT: 2</li>
+  //<li>README.md</li>
+  //<li>templates/index.html</li>
+
+  // add element to DOM
+  // add leaefs to <div id="repos">
+  
+}
   
   
 // create an example report box
@@ -165,7 +188,7 @@ function fetchButtonPOST() {
         // graba handle to the list inside it
         repo_list = document.getElementsByTagName(`${key}_ul`);
         
-        
+        // 
         if (Object.keys(value).length === 0) {
           // repo has no outstanding
           console.log(`repo ${key} has ${Object.keys(value).length} entries oustanding`)
@@ -181,29 +204,6 @@ function fetchButtonPOST() {
         console.log('====================');
         console.log(repo_container_div.children.length)
         console.log('====================');
-        
-        //repo_list.style.backgroundColor = 'white';
-        
-        //if typeof value['changes_to_commit'] === "undefined" &&
-        //   typeof value['not_staged'] === "undefined" &&
-        //   typeof value['untracked'] === "undefined"
-        //{
-        //    
-        //} else {
-        //  
-        //}
-        //console.log(`changes_to_commit ${value['changes_to_commit'].length}`)
-        //console.log(`not_staged ${value['not_staged'].length}`)
-        //console.log(`untracked ${value['untracked'].length}`)
-        //
-        //var size = value.length
-        //
-        //console.log(`repo ${key} has ${size} entries oustanding`)
-        //
-        //if (size === 0) {
-        //  console.log(`repo ${key} has ${size}`)
-        //
-        //}
         
     }
     
@@ -222,39 +222,45 @@ function fetchButtonGitStatus(){
 
   // get local repo status info
   fetch( '/js_fetch_test', {
-    method: 'POST',                                     // method (default is GET)
-    headers: {'Content-Type': 'application/json' },     // JSON
-                                                        // repoPostList retrieved by GET from GitHub
+    method: 'POST',                                 // method (default is GET)
+    headers: {'Content-Type': 'application/json' }, // JSON
+                                                    // repoPostList retrieved by GET button from GitHub
     body: JSON.stringify( { 'user':userName, 'repos':repoPostList } )  
 
   }).then( function(response) {
     
     return response.json();
   
-  }).then( function(data) {
+  }).then( function(repo_data) {
     
-    //Object.entries(data).forEach(
+    //Object.entries(repo_data).forEach(
     //    ([key, value]) => console.log(key, value)
     //);
     
-    console.log('data sep pre - - - - - - - - - - - - - - - - - - - - ');
+    console.log('repo_data sep pre - - - - - - - - - - - - - - - - - - - - ');
     
-    console.log(data);
+    console.log(repo_data);
     
-    // merge repo description into data 
+    // possible refactor using
+    // Object.assign(dest, src1, src2, ...) merges objects.
+    // It overwrites dest with properties and values of (however many) source objects, then returns dest.
+    // The Object.assign() method is used to copy the values of all enumerable own properties from one or
+    // more source objects to a target object. It will return the target object.
+
+    // merge repo description into repo_data 
     for (var i in reposFromGit){
       
       console.log(reposFromGit[i].name);
       console.log(reposFromGit[i].description);
       console.log('- -');
       
-      if (reposFromGit[i].name in data){ // merge descripiton into data
+      if (reposFromGit[i].name in repo_data){ // merge descripiton into repo_data
         
-        data[reposFromGit[i].name].desc = reposFromGit[i].description;
+        repo_data[reposFromGit[i].name].desc = reposFromGit[i].description;
         
         console.log(`INSERTING: >>${reposFromGit[i].description}<< INTO ${reposFromGit[i].name}`)
         
-        console.log(`\\\\\-DATA: ${data[reposFromGit[i].name].desc}\n<< DATA`)
+        console.log(`\ \ \-DATA: ${repo_data[reposFromGit[i].name].desc}\n<< DATA`)
       
       }else{
       
@@ -264,52 +270,35 @@ function fetchButtonGitStatus(){
       
     }
     
-    // build report
-    
-    //var output = '';
-    //for(var i in reposFromGit){
-    //  
-    //  repoPostList.push(reposFromGit[i].name);    // populate array with repo names
-    //  console.log(repoPostList);
-    //  
-    //  output +=
-    //    '<div id="'+reposFromGit[i].name+'" class="repo">' +
-    //    '<img src="'+reposFromGit[i].owner.avatar_url+'" width="35" height="35">' +
-    //    '<ul id="'+reposFromGit[i].name+'_ul">' +
-    //    '<li>repo: '+reposFromGit[i].name+'</li>' +
-    //    '<li>'+reposFromGit[i].description+'</li>' +
-    //    '</ul>' +
-    //    '</div>';
-    //} 
-    //
-    //document.getElementById('repos').innerHTML = output;          
-    
     var output = '';
     
-    for (var key in data){
+    for (var key in repo_data){
       
-      console.log("8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8")
-      console.log(key);    
-      console.log(data[key].desc);
-      console.log(data[key].changes_to_commit);
-      console.log(data[key].not_staged);
-      console.log(data[key].untracked);
-
-      output += create_repo_report_element(key, data);
+      // sanity check to make sure data is where we think it is!!
+      console.log("8-8-8-8-8-8-object-inspect - *");
+      console.log(`REPO NAME(&key): ${key} <`);    
+      console.log(repo_data[key].desc);
+      console.log(repo_data[key].changes_to_commit);
+      console.log(repo_data[key].not_staged);
+      console.log(repo_data[key].untracked);
+      console.log('#-=#=-#-S');
+      console.log(repo_data[key]);
+      console.log('#-=#=-#-E');
+      output += create_repo_report_element(key, repo_data);
     
     }
     
     document.getElementById('repos').innerHTML = output;          
 
-    console.log('data sep- - - - - - - - - - - - - - - - - - - - ');
+    console.log('repo_data sep- - - - - - - - - - - - - - - - - - - - ');
     
-    console.log(data);
+    console.log(repo_data);
     
     return
     
     text = 'iterator 2 style- - - - - - - - - - - - - - - - - - - - '
     console.log(`POST response: ${text}`);        
-    for (const [key, value] of Object.entries(data)) {
+    for (const [key, value] of Object.entries(repo_data)) {
         console.log(key, value);
         
         repo_container_div = document.getElementById(key);
