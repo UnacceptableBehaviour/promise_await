@@ -161,8 +161,6 @@ function create_repo_report_output_section(repo_name_key, repo_data){
 //                              colour back green
 //
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// COLOUR_WARNING
-// COLOUR_WE_ARE_GOOD
 function create_filled_in_status_element(repo_name_key, repo_data){
   //EG incoming
   //repo_name_key = 00_flask
