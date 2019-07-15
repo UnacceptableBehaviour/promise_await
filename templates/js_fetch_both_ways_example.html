@@ -21,7 +21,26 @@
     }
 
     .repo-output-warn {
-      display: flex;      
+      display: flex;
+      background:#FF3881;
+      padding:10px;
+      margin-bottom:0px;
+    }
+    
+    .changes_to_commit {
+      background:#F99DB9;
+    }
+    .not_staged {
+      background:#F6B2F7;
+    }
+    .untracked {
+      background:#C4C6FF;
+    }
+
+    
+    .repo-output-good {
+      display: flex;
+      background:#59AF1C;
       padding:10px;
       margin-bottom:0px;
     }
@@ -78,14 +97,14 @@
     
     <div id="repo-output">
       <div id="00_example" class="repo-inner">
-        <div class='card'>
+        <div class='card changes_to_commit'>
           <ul id="00_example_ul_changes_to_commit">
             <li>CHANGES_TO_COMMIT: 2</li>
             <li>README.md</li>
             <li>templates/index.html</li>
           </ul>
         </div>
-        <div class='card'>
+        <div class='card not_staged'>
           <ul id="00_example_ul_not_staged">
             <li>NOT_STAGED: 3</li>
             <li>README.md</li>
@@ -93,7 +112,7 @@
             <li>holy.grail</li>
           </ul>
         </div>
-        <div class='card'>
+        <div class='card untracked'>
           <ul id="00_example_ul_untracked">          
             <li>UNTRACKED: 1</li>
             <li>deep_in_the_bowels/nutrients.html</li>
