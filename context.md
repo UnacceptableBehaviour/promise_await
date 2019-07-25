@@ -8,7 +8,8 @@
 [Next steps](#next-steps)\
 [Completed](#completed)\
 [Q's & How To's](#qs--how-tos)\
-    [Adding tabs to content links](#adding-tabs-to-content-links) \
+----[Adding tabs to content links](#adding-tabs-to-content-links) \
+----[Auto generaging TOC](#auto-generaging-toc)\
 [Tips on context doc](#tips)\
 [References](#references)\
 
@@ -21,6 +22,7 @@
 1d - See how may anti patterns we've trodden in: Promises & their anti patterns\
 (https://www.nearform.com/blog/javascript-promises-the-definitive-guid) \
 ? - Add a button to each repo that allows display of the Readme.md\
+? - auto gen TOC see HowTo : Feels like creaping elegance but may save aLOT of time
 
 ### Completed
 2019.Jul.25 - Create context.md layout template based on FTD doc.
@@ -29,7 +31,8 @@
 
 # Q's & How To's
 #### Adding tabs to content links
-
+#### Auto generaging TOC
+https://github.com/isaacs/github/issues/215\
 
 
 ## TIPS
