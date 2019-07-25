@@ -18,7 +18,7 @@
 ? - include Context.md Next Steps in card\
 ? - Combine ‘Get Data’ & ‘Git Status’ functionality into one button - await?\
 1d - See how may anti patterns we've trodden in: Promises & their anti patterns\
-(https://www.nearform.com/blog/javascript-promises-the-definitive-guid)\
+(https://www.nearform.com/blog/javascript-promises-the-definitive-guid) \
 ? - Add a button to each repo that allows display of the Readme.md\
 
 ### Completed
