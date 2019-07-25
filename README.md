@@ -2,6 +2,8 @@
 ## Java Script - getting to grips with asynchronous idioms in  JS
 ### Tutorials from Travery Media (https://twitter.com/traversymedia)
 
+Anchor test:
+[see the references](#references)
 
 ## Creating a small web tool that reports the status of all the repos:
 ### Steps:
