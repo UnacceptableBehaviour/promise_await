@@ -3,13 +3,13 @@
 [AMBER]
 
 ### Contents
-[Current status](#status)
-[Contents](#contents)
-[Next steps](#next-steps)
-[Completed](#completed)
-[Q's & How To's](#qs-how-tos)
-[Tips on context doc](#tips)
-[References](#references)
+[Current status](#status)\
+[Contents](#contents)\
+[Next steps](#next-steps)\
+[Completed](#completed)\
+[Q's & How To's](#qs--how-tos)\
+[Tips on context doc](#tips)\
+[References](#references)\
 
 ### Next steps
 30m - get last commit from each repo using ```$ git log -1```
