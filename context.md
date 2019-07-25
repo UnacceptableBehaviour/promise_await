@@ -8,6 +8,7 @@
 [Next steps](#next-steps)\
 [Completed](#completed)\
 [Q's & How To's](#qs--how-tos)\
+  [Adding tabs to content links](#adding-tabs-to-content-links)
 [Tips on context doc](#tips)\
 [References](#references)\
 
@@ -27,6 +28,7 @@
 
 
 # Q's & How To's
+#### Adding tabs to content links
 
 
 
