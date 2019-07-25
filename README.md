@@ -36,23 +36,23 @@ Links to section, eg code etc
 
 
 ## REFERENCES
-Asynch JS Crash Course (vid 24m) Callbacks, Promises, Async Await Traversy Media (https://twitter.com/traversymedia)
+Asynch JS Crash Course (vid 24m) Callbacks, Promises, Async Await Traversy Media (https://twitter.com/traversymedia)\
 https://www.youtube.com/watch?v=PoRJizFvM7s&list=PLillGF-RfqbbnEGy3ROiLWk7JMCuSyQtX&index=11
 
-AutoComplete using a JSON file (vid 19m) Traversy Media (https://twitter.com/traversymedia)
+AutoComplete using a JSON file (vid 19m) Traversy Media (https://twitter.com/traversymedia)\
 https://www.youtube.com/watch?v=1iysNUrI3lw&list=PLillGF-RfqbbnEGy3ROiLWk7JMCuSyQtX&index=15
 
-Ajax CrashC (vid 1h9) Traversy Media (https://twitter.com/traversymedia)
+Ajax CrashC (vid 1h9) Traversy Media (https://twitter.com/traversymedia)\
 https://www.youtube.com/watch?v=82hnvUYY6QA&list=PLillGF-RfqbbnEGy3ROiLWk7JMCuSyQtX&index=12
 
-From python to JS and back
+From python to JS and back\
 https://dev.to/healeycodes/talking-to-python-from-javascript-and-back-again-31jf
 
-Mozilla Docs - Fetch API
+Mozilla Docs - Fetch API\
 https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
 
-Fetch API - 31m vid Traversy Media (https://twitter.com/traversymedia)
+Fetch API - 31m vid Traversy Media (https://twitter.com/traversymedia)\
 https://www.youtube.com/watch?v=Oive66jrwBs&list=PLillGF-RfqbbnEGy3ROiLWk7JMCuSyQtX&index=13
 
-Postman
+Postman\
 https://www.getpostman.com/
