@@ -26,8 +26,14 @@
 
 ### Completed
 2019.Jul.25 - Create context.md layout template based on FTD doc.
-
-
+2019.Jul.25 -
+2019.Jul.14 - Use JS to display the results
+2019.Jul.13 - Bootstrap report card
+2019.Jul.12 - de-noise console outs by adding logging to JS
+Pass data back from Python to JS
+Interrogate local repos
+Pass data from JS to Python
+Access GIT using Git API in JS
 
 # Q's & How To's
 #### Adding tabs to content links

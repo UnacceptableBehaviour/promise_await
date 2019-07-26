@@ -2,16 +2,10 @@
 ## Java Script - getting to grips with asynchronous idioms in  JS
 ### Tutorials from Travery Media (https://twitter.com/traversymedia)
 
-Anchor test:
-[see the references](#references)
 
-## Creating a small web tool that reports the status of all the repos:
+## Ex Create a small web tool that reports the status of all the repos:
 ### Steps:
-Access GIT using Git API in JS
-Pass data from JS to Python
-Interrogate local repos
-Pass data back from Python to JS
-Use JS to display the results
+
 
 test code:
 ```
