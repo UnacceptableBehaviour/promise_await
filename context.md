@@ -1,17 +1,20 @@
 # context
-### status:
+## status:
 [AMBER]
 
-### Contents
-[Current status](#status)\
-[Contents](#contents)\
-[Next steps](#next-steps)\
-[Completed](#completed)\
-[Q's & How To's](#qs--how-tos)\
-----[Adding tabs to content links](#adding-tabs-to-content-links) \
-----[Auto generaging TOC](#auto-generaging-toc)\
-[Tips on context doc](#tips)\
-[References](#references)\
+## Contents
+1. [status:](#status)
+2. [Contents](#contents)
+	1. [Next steps](#next-steps)
+	2. [Completed](#completed)
+1. [Answered](#answered)
+	1. [How do I insert a TOC?](#how-do-i-insert-a-toc)
+	2. [How do I auto generate TOC?](#how-do-i-auto-generate-toc)
+1. [Q's & How To's](#qs--how-tos)
+2. [TIPS](#tips)
+3. [REFERENCES](#references)
+	1. [Markdown cheat sheet](#markdown-cheat-sheet)
+	2. [GFM - Git Flavoured Markdown](#gfm--git-flavoured-markdown)
 
 ### Next steps
 30m - get last commit from each repo using ```$ git log -1```\
@@ -34,10 +37,46 @@ Interrogate local repos\
 Pass data from JS to Python\
 Access GIT using Git API in JS\
 
-# Q's & How To's
-#### Adding tabs to content links
-#### Auto generaging TOC
-https://github.com/isaacs/github/issues/215\
+## Answered
+### How do I insert a TOC?
+To creat a link to a chapter in MD:
+```
+[Text to Display](#text-from-title)\
+[Q's & How To's](#qs--how-tos)\
+```
+
+The text-from-title is the the text from the title downcased, with spaces replaced with a hyphen '-' and non alphanumeric characters removed. So "Q's & How To's" becomes '#qs--how-tos'
+The '\\' at the end of the line is same as <br> or CRLF. (New line)
+
+To create a TOC, create a numbered list of links. Tab in next level with new numbers.
+```
+1. [Current status](#status)\
+2. [Contents](#contents)\
+3. [Next steps](#next-steps)\
+4. [Completed](#completed)\
+5. [Q's & How To's](#qs--how-tos)\
+    1. [Adding tabs to content links](#adding-tabs-to-content-links) \
+    2. [Auto generaging TOC](#auto-generaging-toc)\
+6. [Tips on context doc](#tips)\
+7. [References](#references)
+```
+
+### How do I auto generate TOC?
+```
+$ cd /lang/linux_mix/linux_bike             # cd into repo - same dir as the README.md file
+                                            # or context.md file
+$ spe                                       # venv for python scrips
+                                            # alias spe='. /repos/python_scripts/venv/bin/activate'   
+$ create_TOC_for_md.py                      # run script
+                                            # paste output into .md file TOC
+```
+
+
+
+## Q's & How To's
+
+
+
 
 
 ## TIPS
