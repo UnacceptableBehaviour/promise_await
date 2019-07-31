@@ -7,54 +7,32 @@
 2. [Contents](#contents)
 3. [Next steps](#next-steps)
 4. [Completed](#completed)
-	1. [Wire up a raspberry pi zero to FONA GPS/Comms module](#wire-up-a-raspberry-pi-zero-to-fona-gpscomms-module)
-	2. [AC/DC converter mounting asembly (STL 3d print assmbly, fit)](#acdc-converter-mounting-asembly-stl-3d-print-assmbly-fit)
-	3. [Battery casing and assembly (internal cell assembly, STL 3d print casing)](#battery-casing-and-assembly-internal-cell-assembly-stl-3d-print-casing)
-	4. [Battery life tests](#battery-life-tests)
-	5. [Create simple linux platform allow ruby/python and SSH (use a raspberry pi - rpi)](#create-simple-linux-platform-allow-rubypython-and-ssh-use-a-raspberry-pi--rpi)
-	6. [Install os on rpi & make it visible on network, and ssh in.](#install-os-on-rpi--make-it-visible-on-network-and-ssh-in)
-	7. [How do I insert a TOC?](#how-do-i-insert-a-toc)
-	8. [How do I auto generate TOC?](#how-do-i-auto-generate-toc)
-1. [Q's & How To's](#qs--how-tos)
-2. [TIPS](#tips)
-3. [REFERENCES](#references)
+5. [How To's](#how-tos)
+	1. [How do I insert a TOC?](#how-do-i-insert-a-toc)
+	2. [How do I auto generate TOC?](#how-do-i-auto-generate-toc)
+6. [Questions / Barriers](#questions--barriers)
+	1. [How do we pull load info from the sheduler, are there OS hooks?\](#how-do-we-pull-load-info-from-the-sheduler-are-there-os-hooks)
+	2. [Can personality emerge for a set of competing algorithms?\](#can-personality-emerge-for-a-set-of-competing-algorithms)
+	3. [What is the best way to achieve hyper focus?\](#what-is-the-best-way-to-achieve-hyper-focus)
+7. [TIPS](#tips)
+8. [REFERENCES](#references)
 	1. [Markdown cheat sheet](#markdown-cheat-sheet)
 	2. [GFM - Git Flavoured Markdown](#gfm--git-flavoured-markdown)
 
 
 ## Next steps
-Get serial comms talking and FONA unit response\
-Get wifi dongle working so can us LAN dongle for other things!\
-Add docs and files for completed steps, directory for each?\
-Ugrade TOC script so it inserts TOC back into .md file and saves new version into scratch folder
+Action 1\
+Action 2 - on Critical Path\
+Action 3 etc\
+
 
 ## Completed
-### Wire up a raspberry pi zero to FONA GPS/Comms module
-Add wiring diagram and notes on important pins.\
+2019.Jul.31 - TLA - Create Context Template
 
-### AC/DC converter mounting asembly (STL 3d print assmbly, fit)
-Add mechanical diagram\
-Add sketchup, STL, and gcode files\
-Add image of Prototype mounting\
 
-### Battery casing and assembly (internal cell assembly, STL 3d print casing)
-Add mechanical diagram\
-Add sketchup, STL, and gcode files\
-Add image of assembly stages\
-Comment possible flaws and potential redisign from prototype v1\
-
-### Battery life tests
-Basic workings\
-Power consumption per module\
-
-### Create simple linux platform allow ruby/python and SSH (use a raspberry pi - rpi)
-Intsalling / compiling ruby for SD platform image\
-
-### Install os on rpi & make it visible on network, and ssh in.
-Doc about setting up the rpi for remote development\
-
+## How To's
 ### How do I insert a TOC?
-To creat a link to a chapter in MD:
+To create a link to a chapter in MD:
 ```
 [Text to Display](#text-from-title)\
 [Q's & How To's](#qs--how-tos)\
@@ -88,10 +66,10 @@ $ create_TOC_for_md.py                      # run script
 
 
 
-## Q's & How To's
-
-
-
+## Questions / Barriers
+### How do we pull load info from the sheduler, are there OS hooks?\
+### Can personality emerge for a set of competing algorithms?\
+### What is the best way to achieve hyper focus?\
 
 
 ## TIPS
