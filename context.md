@@ -1,18 +1,18 @@
-# context
-## status:
+# Context
+## Status:
 [AMBER]
 
 ## Contents
-1. [status:](#status)
+1. [Status:](#status)
 2. [Contents](#contents)
 	1. [Next steps](#next-steps)
 	2. [Completed](#completed)
-1. [Answered](#answered)
+3. [How To's](#how-tos)
 	1. [How do I insert a TOC?](#how-do-i-insert-a-toc)
 	2. [How do I auto generate TOC?](#how-do-i-auto-generate-toc)
-1. [Q's & How To's](#qs--how-tos)
-2. [TIPS](#tips)
-3. [REFERENCES](#references)
+4. [Questions / Barriers](#questions--barriers)
+5. [TIPS](#tips)
+6. [REFERENCES](#references)
 	1. [Markdown cheat sheet](#markdown-cheat-sheet)
 	2. [GFM - Git Flavoured Markdown](#gfm--git-flavoured-markdown)
 
@@ -37,7 +37,7 @@ Interrogate local repos\
 Pass data from JS to Python\
 Access GIT using Git API in JS\
 
-## Answered
+## How To's
 ### How do I insert a TOC?
 To creat a link to a chapter in MD:
 ```
@@ -73,7 +73,7 @@ $ create_TOC_for_md.py                      # run script
 
 
 
-## Q's & How To's
+## Questions / Barriers
 
 
 
