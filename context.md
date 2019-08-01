@@ -19,30 +19,28 @@
 ### Next steps
 30 - Draw sequence diagram of report.  
 Order repos by last touch:  
-	get last commit from each repo using ```$ git log -1```\
-	Get next steps & status colour & reason\
-	Set background colour according to status (Use blue for parked)\
-	Report next steps in card - repo report
-	Create an Open readme  button for each repo with href to README.md for that repo
+get last commit from each repo using ```$ git log -1```  
+Get next steps & status colour & reason from context.md  
+Set background colour according to status (Use blue for parked)  
+Report next steps in card - repo report
+Create an Open readme  button for each repo with href to README.md for that repo
+? - Combine ‘Get Data’ & ‘Git Status’ functionality into one button - await?  
+1d - See how may anti patterns we've trodden in: Promises & their anti patterns  
+(https://www.nearform.com/blog/javascript-promises-the-definitive-guid)   
+Break git tool out into separate repo and park it
+Finish JS auto complete exercize
 
-15m - include that in the report card\
-? - order report cards by last commits date\
-? - include Context.md Next Steps in card\
-? - Combine ‘Get Data’ & ‘Git Status’ functionality into one button - await?\
-1d - See how may anti patterns we've trodden in: Promises & their anti patterns\
-(https://www.nearform.com/blog/javascript-promises-the-definitive-guid) \
-? - Add a button to each repo that allows display of the Readme.md\
-? - auto gen TOC see HowTo : Feels like creaping elegance but may save aLOT of time
 
 ### Completed
-2019.Jul.25 - Create context.md layout template based on FTD doc.\
-2019.Jul.14 - Use JS to display the results\
-2019.Jul.13 - Bootstrap report card\
-2019.Jul.12 - de-noise console outs by adding logging to JS\
-Pass data back from Python to JS\
-Interrogate local repos\
-Pass data from JS to Python\
-Access GIT using Git API in JS\
+2019.Jul.31 - Added auto gen TOC see HowTo: create_TOC_for_md.py
+2019.Jul.25 - Create context.md layout template based on FTD doc.  
+2019.Jul.14 - Use JS to display the results  
+2019.Jul.13 - Bootstrap report card  
+2019.Jul.12 - de-noise console outs by adding logging to JS  
+Pass data back from Python to JS  
+Interrogate local repos  
+Pass data from JS to Python  
+Access GIT using Git API in JS  
 
 
 ## Questions / Barriers
@@ -65,15 +63,15 @@ The '\\' at the end of the line is same as <br> or CRLF. (New line)
 
 To create a TOC, create a numbered list of links. Tab in next level with new numbers.
 ```
-1. [Current status](#status)\
-2. [Contents](#contents)\
-3. [Next steps](#next-steps)\
-4. [Completed](#completed)\
-5. [Q's & How To's](#qs--how-tos)\
-    1. [Adding tabs to content links](#adding-tabs-to-content-links) \
-    2. [Auto generaging TOC](#auto-generaging-toc)\
-6. [Tips on context doc](#tips)\
-7. [References](#references)
+1. [Current status](#status)  
+2. [Contents](#contents)  
+3. [Next steps](#next-steps)  
+4. [Completed](#completed)  
+5. [Q's & How To's](#qs--how-tos)  
+    1. [Adding tabs to content links](#adding-tabs-to-content-links)   
+    2. [Auto generaging TOC](#auto-generaging-toc)  
+6. [Tips on context doc](#tips)  
+7. [References](#references)  
 ```
 
 ### How do I auto generate TOC?
@@ -89,10 +87,10 @@ $ create_TOC_for_md.py                      # run script
 
 
 ## TIPS
-Keep status concise:\
-start w/ RED, AMBER, GREEN (colours report box)\
+Keep status concise:  
+start w/ RED, AMBER, GREEN (colours report box)  
 
-<br>/CRLF in markdown is endline \\
+<br>/CRLF in markdown is endline \\ or two spaces
 
 
 ## REFERENCES
