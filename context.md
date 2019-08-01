@@ -17,8 +17,8 @@
 	2. [GFM - Git Flavoured Markdown](#gfm--git-flavoured-markdown)
 
 ### Next steps
-30 - Draw sequence diagram of report. A
-Order repos by last touch:
+30 - Draw sequence diagram of report.  
+Order repos by last touch:  
 	get last commit from each repo using ```$ git log -1```\
 	Get next steps & status colour & reason\
 	Set background colour according to status (Use blue for parked)\
