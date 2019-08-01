@@ -30,10 +30,11 @@ def hello_world_js_examples():
     vocab = get_igd_vocab()
     helper_data = { 'vocab': vocab }
     script_example = 'auto_complete.js'
+    script_example = 'async_await.js'
     
     
     return render_template('js_example_selector.html', recipes=recipes, helper_data=helper_data, script_example=script_example)
-# doesn't cuurently take template setup into account
+# doesn't curently take template setup into account
 '''
   JS examples
   <!--<script src="static/callbacks.js"></script>-->  

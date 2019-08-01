@@ -31,14 +31,20 @@ function getPosts() {
       output += `<li>${post.title} - ${stamp()}</li>`;
     });
     console.log(`document.body.innerHTML = output; from getPosts . . . . .${stamp()}`);
-    document.body.innerHTML = output;
+    
+    const output_div = document.getElementById('simple-output') // element in js_fetch_bot_ways.html
+    
+    //document.body.innerHTML = output;
+    output_div.innerHTML = output;
+    
   }, 2000);
 }
 
 function createPost(post) {
   console.log(`createPost . . . . .${stamp()}`);
+  
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
+    setTimeout( () => {
       post.title += `- ${stamp()}`
       posts.push(post);
 
@@ -74,7 +80,8 @@ async function fetchUsers() {
   const res = await fetch('https://jsonplaceholder.typicode.com/users');
 
   console.log(`await res.json() from async function fetchUsers . . . . .${stamp()}`);
-  const data = await res.json();
+  //const data = await res.json();  // what await for here? needed?
+  const data = res.json();          // res.json(); extract object from the response from fetch
 
   console.log(`log data . . . . .${stamp()}`);
   console.log(data);
