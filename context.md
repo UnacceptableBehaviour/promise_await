@@ -17,7 +17,14 @@
 	2. [GFM - Git Flavoured Markdown](#gfm--git-flavoured-markdown)
 
 ### Next steps
-30m - get last commit from each repo using ```$ git log -1```\
+30 - Draw sequence diagram of report. A
+Order repos by last touch:
+	get last commit from each repo using ```$ git log -1```\
+	Get next steps & status colour & reason\
+	Set background colour according to status (Use blue for parked)\
+	Report next steps in card - repo report
+	Create an Open readme  button for each repo with href to README.md for that repo
+
 15m - include that in the report card\
 ? - order report cards by last commits date\
 ? - include Context.md Next Steps in card\
@@ -36,6 +43,14 @@ Pass data back from Python to JS\
 Interrogate local repos\
 Pass data from JS to Python\
 Access GIT using Git API in JS\
+
+
+## Questions / Barriers
+
+
+
+
+
 
 ## How To's
 ### How do I insert a TOC?
@@ -70,12 +85,6 @@ $ spe                                       # venv for python scrips
 $ create_TOC_for_md.py                      # run script
                                             # paste output into .md file TOC
 ```
-
-
-
-## Questions / Barriers
-
-
 
 
 
