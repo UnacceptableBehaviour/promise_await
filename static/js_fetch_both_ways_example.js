@@ -10,6 +10,12 @@ COLOUR_WE_ARE_GOOD = '#59AF1C';
 //                                  00_flask_ul_changes_to_commit from ${repo_name_key}_ul_changes_to_commit
 
 
+// get a feel for timing
+function stamp(){  
+  dt = (new Date);
+  return `${dt.getSeconds()}.${dt.getMilliseconds()}`;
+}
+
 // function not called - example of template 
 function create_repo_report_element(repo_name_key, repo_data){
 
@@ -56,7 +62,7 @@ function create_repo_report_element(repo_name_key, repo_data){
 
 
 // create a card with a list of files for each REPO file category(card_key_as_title)
-function create_repo_report_file_list_card(repo_name_key, card_key_as_title, file_list){
+function createRepoReportFileListCard(repo_name_key, card_key_as_title, file_list){
 
   // construct the list to go in the card
   var file_list_as_html = '';
@@ -82,7 +88,7 @@ function create_repo_report_file_list_card(repo_name_key, card_key_as_title, fil
 // create bottom half of report card - WARNING VERSION
 // => background colour ALREADY decided!
 // at least ONE array exists in repo_data
-function create_repo_report_output_section(repo_name_key, repo_data){
+function createRepoReportOutputSection(repo_name_key, repo_data){
   //EG incoming
   //repo_name_key = 00_flask    file_lists
   //repo_data = { 00_flask : {  changes_to_commit: ["README.md", "diffusion.cc"]
@@ -108,7 +114,7 @@ function create_repo_report_output_section(repo_name_key, repo_data){
   //  console.log(card_key_as_title);
   //  console.log(file_list);
   //  console.log('...........');
-  //  output_section_html += create_repo_report_file_list_card(repo_name_key, card_key_as_title, file_list);
+  //  output_section_html += createRepoReportFileListCard(repo_name_key, card_key_as_title, file_list);
   //}
   // - - 
   //Object.entries(repo_data).forEach(                // NEEDS WORK
@@ -117,7 +123,7 @@ function create_repo_report_output_section(repo_name_key, repo_data){
   //        console.log(card_key_as_title);
   //        console.log(file_list);
   //        console.log('...........');
-  //        output_section_html += create_repo_report_file_list_card(repo_name_key, card_key_as_title, file_list);
+  //        output_section_html += createRepoReportFileListCard(repo_name_key, card_key_as_title, file_list);
   //        }
   //);
   // recode using for in - just want to see if above works  
@@ -127,7 +133,7 @@ function create_repo_report_output_section(repo_name_key, repo_data){
   //  console.log(card_key_as_title);
   //  console.log(file_list);
   //  console.log('...........');    
-  //  output_section_html += create_repo_report_file_list_card(repo_name_key, card_key_as_title, file_list);  
+  //  output_section_html += createRepoReportFileListCard(repo_name_key, card_key_as_title, file_list);  
   //}
   // recode using for in - and an array to create specific order
   var order_of_lists = [ 'changes_to_commit', 'not_staged', 'untracked'];
@@ -141,7 +147,7 @@ function create_repo_report_output_section(repo_name_key, repo_data){
       console.log(card_key_as_title);
       console.log(file_list);
       console.log('...........');     
-      output_section_html += create_repo_report_file_list_card(repo_name_key, card_key_as_title, file_list);        
+      output_section_html += createRepoReportFileListCard(repo_name_key, card_key_as_title, file_list);        
     }
   }
 
@@ -183,7 +189,7 @@ function create_filled_in_status_element(repo_name_key, repo_data){
   // if (repo_data[repo_name_key].keys > 1) {  NO WORK
   if (Object.keys(repo_data[repo_name_key]).length > 1) {  // we have file lists  
     // create WARNING output
-    output_section_html = create_repo_report_output_section(repo_name_key, repo_data);
+    output_section_html = createRepoReportOutputSection(repo_name_key, repo_data);
   
   } else {
     // create OK output
@@ -416,11 +422,11 @@ function fetchButtonGitStatus(){
       console.log(repo_data[key].untracked);
       console.log('#-=#=-#-S');
       console.log(repo_data[key]);
-      //console.log(create_repo_report_file_list_card(key, 'changes_to_commit', repo_data[key].changes_to_commit));
+      //console.log(createRepoReportFileListCard(key, 'changes_to_commit', repo_data[key].changes_to_commit));
       console.log('#-=#=-#-E');
       //output += create_repo_report_element(key, repo_data);
       output += create_filled_in_status_element(key, repo_data);
-      //output += create_repo_report_output_section(key, repo_data);
+      //output += createRepoReportOutputSection(key, repo_data);
     }
     
     document.getElementById('repos').innerHTML = output;          
@@ -470,7 +476,7 @@ function fetchButtonGitStatus(){
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // all together
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-function fetchButtonAllInOne(){
+async function fetchButtonAllInOne(){
   
   outputDiv.innerHTML = 'Getting info from GIT, comparing to local repos, and reporting . . ';
 
@@ -478,40 +484,43 @@ function fetchButtonAllInOne(){
   // get git info here await it
 
   
-  console.log(`BEFORE await fetch: ${Object.keys(reposFromGit).length}`);
+  console.log(`BEFORE await fetch: ${Object.keys(reposFromGit).length} - ${stamp()}`);
+  console.log(`fetching: https://api.github.com/users/${userName}/repos`);
   
-  //await fetch( `https://api.github.com/users/${userName}/repos` )
-  //  .then( function(response) {
-  //    return response.text();
+  const resp = await fetch( `https://api.github.com/users/${userName}/repos` );
+  
+  reposFromGit = await resp.json();     // convert response to obj - use JSON.parse(text); for converting text to obj 
+
+  // TODO Ex - work out wy the following works in fetchButtonGET() but not here? asynch?    
+  //fetch( `https://api.github.com/users/${userName}/repos` )
+  //  .then(
+  //    function(response) {
+  //      if (response.status !== 200) {
+  //        console.log(`Looks like there was a problem. Status Code: ${response.status}`);
+  //        return;
+  //      }
+  //      
+  //      console.log(`fetch.then response.text: ${response} - ${stamp()}`);
+  //      return response.text();
   //  
-  //  }).then( function(text) {
-  //    //console.log(`GET response: ${text}`);      // should read "Rendered HTML from route"
-  //          
-  //    reposFromGit = JSON.parse(text);
-  //
-  //    var output = '';
-  //    for(var i in reposFromGit){
-  //      
-  //      repoPostList.push(reposFromGit[i].name);    // populate array with repo names
-  //      console.log(repoPostList);
-  //      
-  //      output +=
-  //        '<div id="'+reposFromGit[i].name+'" class="repo">' +
-  //        '<img src="'+reposFromGit[i].owner.avatar_url+'" width="35" height="35">' +
-  //        '<ul id="'+reposFromGit[i].name+'_ul">' +
-  //        '<li>repo: '+reposFromGit[i].name+'</li>' +
-  //        '<li>'+reposFromGit[i].description+'</li>' +
-  //        '</ul>' +
-  //        '</div>';
-  //    } 
-  //
-  //    document.getElementById('repos').innerHTML = output;          
-  //
-  //  });
+  //    }
+  //  ).then(
+  //    function(text) {        
+  //      reposFromGit = JSON.parse(text);
+  //      console.log(`fetch.then.then reposFromGit: ${reposFromGit} - ${stamp()}`);
+  //    }
+  //  );      
+
+  console.log(`AFTER await fetch: ${Object.keys(reposFromGit).length} - ${stamp()}`);
     
-  console.log(`AFTER await fetch: ${Object.keys(reposFromGit).length}`);
+  for(var key in reposFromGit){
+        
+    repoPostList.push(reposFromGit[key].name);      // extract name of each repo for this user
+    
+  }  
   
-  // get local repo status info
+  
+  // get local repo status info - POST list of repo name to server for info retrieval.
   fetch( '/js_fetch_test', {
     method: 'POST',                                 // method (default is GET)
     headers: {'Content-Type': 'application/json' }, // JSON
@@ -528,7 +537,7 @@ function fetchButtonAllInOne(){
     //    ([key, value]) => console.log(key, value)
     //);
     
-    console.log('repo_data sep pre - - - - - - - - - - - - - - - - - - - - ');
+    console.log('repo_data sep pre - - - - - - - - - - - - - - - - - - - - S');
     
     console.log(repo_data);
     
@@ -574,16 +583,16 @@ function fetchButtonAllInOne(){
       console.log(repo_data[key].untracked);
       console.log('#-=#=-#-S');
       console.log(repo_data[key]);
-      //console.log(create_repo_report_file_list_card(key, 'changes_to_commit', repo_data[key].changes_to_commit));
+      //console.log(createRepoReportFileListCard(key, 'changes_to_commit', repo_data[key].changes_to_commit));
       console.log('#-=#=-#-E');
       //output += create_repo_report_element(key, repo_data);
       output += create_filled_in_status_element(key, repo_data);
-      //output += create_repo_report_output_section(key, repo_data);
+      //output += createRepoReportOutputSection(key, repo_data);
     }
     
     document.getElementById('repos').innerHTML = output;          
 
-    console.log('repo_data sep- - - - - - - - - - - - - - - - - - - - ');
+    console.log('repo_data sep - - - - - - - - - - - - - - - - - - - - E');
     
     console.log(repo_data);
     
