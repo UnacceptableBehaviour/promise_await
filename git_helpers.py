@@ -158,6 +158,9 @@ def get_status_of_local_git_repos(repo_list, debug_level=0):
             logging.debug(f"\n- - returned from shell - - {repo}")
             logging.debug(repo_status)
             repo_report[repo] = process_git_status(repo_status)
+            
+            repo_report[repo]['date_activity'] = get_date_info()[0]
+            repo_report[repo]['date_touch'] = get_date_info()[1]
             logging.debug("- - - - - - - - - - - - - - - - - - - -|")
             
         else:
@@ -190,44 +193,60 @@ def display_repo_data_to_console(repo_report):
 #$ git log -1 | grep Date  >Date:   Fri Aug 2 11:29:08 2019 +0100
 def get_date_info():
     
-    touch_date = 0
-    general_date = 0
+    try:
+        touch_date = 0
+        general_date = 0
+        
+        # NOPE
+        #date_cli_return = subprocess.run(['git log -1', ''], stdout=subprocess.PIPE).stdout.decode('utf-8')
     
-    # NOPE
-    #date_cli_return = subprocess.run(['git log -1', ''], stdout=subprocess.PIPE).stdout.decode('utf-8')
-
-    # NOPE
-    #date_cli_return = subprocess.run(['git', 'log -1'], stdout=subprocess.PIPE).stdout.decode('utf-8')
-
-    # OK
-    #date_cli_return = subprocess.run(['git', 'log','-1'], stdout=subprocess.PIPE).stdout.decode('utf-8') # last push
-    date_cli_return = subprocess.run(['git', 'log'], stdout=subprocess.PIPE).stdout.decode('utf-8')     # all pushes
+        # NOPE
+        #date_cli_return = subprocess.run(['git', 'log -1'], stdout=subprocess.PIPE).stdout.decode('utf-8')
     
-    # NOPE
-    #date_cli_return = subprocess.run(['git', 'log','-1','|','grep','Date'], stdout=subprocess.PIPE).stdout.decode('utf-8')
-    # Ahh . . .
-    # Normally, each call to run, check_output, or the Popen constructor executes a single program.
-    # That means no fancy bash-style pipes. If you want to run complex shell commands, you can pass shell=True,
-    # which all three functions support.
-    # https://stackoverflow.com/questions/4760215/running-shell-command-and-capturing-the-output
-    # https://stackoverflow.com/questions/6341451/piping-together-several-subprocesses
-
-    print("- - - Data - - - S")
-    print(f"{date_cli_return}")    
+        # OK
+        #date_cli_return = subprocess.run(['git', 'log','-1'], stdout=subprocess.PIPE).stdout.decode('utf-8') # last push
+        date_cli_return = subprocess.run(['git', 'log'], stdout=subprocess.PIPE).stdout.decode('utf-8')     # all pushes
+        
+        # NOPE
+        #date_cli_return = subprocess.run(['git', 'log','-1','|','grep','Date'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+        # Ahh . . .
+        # Normally, each call to run, check_output, or the Popen constructor executes a single program.
+        # That means no fancy bash-style pipes. If you want to run complex shell commands, you can pass shell=True,
+        # which all three functions support.
+        # https://stackoverflow.com/questions/4760215/running-shell-command-and-capturing-the-output
+        # https://stackoverflow.com/questions/6341451/piping-together-several-subprocesses
     
-    print("- - - Data - - - <M")
-    push_dates = re.findall(r'^Date:   (.*?)$', date_cli_return, re.M | re.S)   # 'Tue Jun 18 21:59:55 2019 +0100'    
-    print(f"{push_dates}\n-\n")
-    #['Fri Aug 2 11:29:08 2019 +0100']
-    #  '%a %b %d %H:%M:%S %Y %z'
+        #['Fri Aug 2 11:29:08 2019 +0100']
+        #  '%a %b %d %H:%M:%S %Y %z'
+        # parse to datetime
+        # print( datetime.strptime(push_dates[0], '%a %b %d %H:%M:%S %Y %z') )
+        # turn to seconds since epoch
+        # print( datetime.strptime(push_dates[0], '%a %b %d %H:%M:%S %Y %z').timestamp() )
+        # turn back again
+        # print( datetime.fromtimestamp(datetime.strptime(push_dates[0], '%a %b %d %H:%M:%S %Y %z').timestamp()) )
     
-    print( datetime.strptime(push_dates[0], '%a %b %d %H:%M:%S %Y %z') )
-    print( datetime.strptime(push_dates[0], '%a %b %d %H:%M:%S %Y %z').timestamp() )
-    print( datetime.fromtimestamp(datetime.strptime(push_dates[0], '%a %b %d %H:%M:%S %Y %z').timestamp()) )
-
+        git_push_dates = re.findall(r'^Date:   (.*?)$', date_cli_return, re.M | re.S)   # 'Tue Jun 18 21:59:55 2019 +0100'
+        
+        time_format = '%a %b %d %H:%M:%S %Y %z'
+        
+        epochs = [ datetime.strptime(d, time_format).timestamp() for d in git_push_dates ]
+        
+        touch_date = epochs[0]                     # last put back date
+        
+        general_date = sum(epochs) / len(epochs)   # average date so a single file push or edit doesn't skew order
+        
+        # print("- - - Data - - - S")
+        # print(f"touch s epoch: {touch_date}")
+        # print(f"touch date: {datetime.fromtimestamp(touch_date)}")
+        # print(f"general s epoch: {round(general_date,0)}")
+        # print(f"general date: {datetime.fromtimestamp(round(general_date,0))}")    
+        # print("- - - Data - - - E")
+    except NotImplementedError:
+        print('get_date_info() should be run from the appropriate git directory')
+        
+    finally:        
+        return tuple( [round(general_date,0), touch_date] ) 
     
-    print("- - - Data - - - E")
-    #datetime.strptime('Jun 1 2005  1:33PM', '%b %d %Y %I:%M%p')
     
 if __name__ == '__main__':
     
@@ -260,8 +279,8 @@ if __name__ == '__main__':
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # go through repo list and get status
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    #repo_report = get_status_of_local_git_repos(repo_list)
-    #display_repo_data_to_console(repo_report)
-    #pprint(repo_report['00_flask'])
+    repo_report = get_status_of_local_git_repos(repo_list)
+    pprint(repo_report['00_flask'])
+    display_repo_data_to_console(repo_report)
     
-    get_date_info()
+    
