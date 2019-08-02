@@ -9,11 +9,11 @@
 4. [Completed](#completed)
 5. [How To's](#how-tos)
 	1. [How do I insert a TOC?](#how-do-i-insert-a-toc)
-	2. [How do I auto generate TOC?](#how-do-i-auto-generate-toc)
 6. [Questions / Barriers](#questions--barriers)
 	1. [How do we pull load info from the sheduler, are there OS hooks?\](#how-do-we-pull-load-info-from-the-sheduler-are-there-os-hooks)
 	2. [Can personality emerge for a set of competing algorithms?\](#can-personality-emerge-for-a-set-of-competing-algorithms)
 	3. [What is the best way to achieve hyper focus?\](#what-is-the-best-way-to-achieve-hyper-focus)
+	4. [How do I auto generate TOC?](#how-do-i-auto-generate-toc)
 7. [TIPS](#tips)
 8. [REFERENCES](#references)
 	1. [Markdown cheat sheet](#markdown-cheat-sheet)
@@ -54,6 +54,14 @@ To create a TOC, create a numbered list of links. Tab in next level with new num
 7. [References](#references)
 ```
 
+## Questions / Barriers
+### How do we pull load info from the sheduler, are there OS hooks?\
+### Can personality emerge for a set of competing algorithms?\
+### What is the best way to achieve hyper focus?\
+
+
+
+
 ### How do I auto generate TOC?
 ```
 $ cd /lang/linux_mix/linux_bike             # cd into repo - same dir as the README.md file
@@ -65,11 +73,6 @@ $ create_TOC_for_md.py                      # run script
 ```
 
 
-
-## Questions / Barriers
-### How do we pull load info from the sheduler, are there OS hooks?\
-### Can personality emerge for a set of competing algorithms?\
-### What is the best way to achieve hyper focus?\
 
 
 ## TIPS

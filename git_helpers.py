@@ -9,6 +9,12 @@ import subprocess           # subprocess.run(command, arg)
 import re                   # regular expresions
 import json                 # json parsing
 
+from datetime import datetime   # timstamp - epoch calcs
+# import datetime # means that . . 
+# The people who made the datetime module also named their class datetime:
+# module  class    method
+# datetime.datetime.strptime(date, "%Y-%m-%d")
+
 import glob                 
 from pprint import pprint   # giza a look
 
@@ -27,6 +33,7 @@ local_scratch_dir.mkdir(parents=True, exist_ok=True)
 # logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')   # add time & date info
 
 logging.basicConfig(level=logging.INFO)   # set level
+#logging.basicConfig(level=logging.DEBUG)   # set level
 
 
 
@@ -180,8 +187,47 @@ def display_repo_data_to_console(repo_report):
     
     logging.info("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
 
+#$ git log -1 | grep Date  >Date:   Fri Aug 2 11:29:08 2019 +0100
+def get_date_info():
+    
+    touch_date = 0
+    general_date = 0
+    
+    # NOPE
+    #date_cli_return = subprocess.run(['git log -1', ''], stdout=subprocess.PIPE).stdout.decode('utf-8')
 
+    # NOPE
+    #date_cli_return = subprocess.run(['git', 'log -1'], stdout=subprocess.PIPE).stdout.decode('utf-8')
 
+    # OK
+    #date_cli_return = subprocess.run(['git', 'log','-1'], stdout=subprocess.PIPE).stdout.decode('utf-8') # last push
+    date_cli_return = subprocess.run(['git', 'log'], stdout=subprocess.PIPE).stdout.decode('utf-8')     # all pushes
+    
+    # NOPE
+    #date_cli_return = subprocess.run(['git', 'log','-1','|','grep','Date'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    # Ahh . . .
+    # Normally, each call to run, check_output, or the Popen constructor executes a single program.
+    # That means no fancy bash-style pipes. If you want to run complex shell commands, you can pass shell=True,
+    # which all three functions support.
+    # https://stackoverflow.com/questions/4760215/running-shell-command-and-capturing-the-output
+    # https://stackoverflow.com/questions/6341451/piping-together-several-subprocesses
+
+    print("- - - Data - - - S")
+    print(f"{date_cli_return}")    
+    
+    print("- - - Data - - - <M")
+    push_dates = re.findall(r'^Date:   (.*?)$', date_cli_return, re.M | re.S)   # 'Tue Jun 18 21:59:55 2019 +0100'    
+    print(f"{push_dates}\n-\n")
+    #['Fri Aug 2 11:29:08 2019 +0100']
+    #  '%a %b %d %H:%M:%S %Y %z'
+    
+    print( datetime.strptime(push_dates[0], '%a %b %d %H:%M:%S %Y %z') )
+    print( datetime.strptime(push_dates[0], '%a %b %d %H:%M:%S %Y %z').timestamp() )
+    print( datetime.fromtimestamp(datetime.strptime(push_dates[0], '%a %b %d %H:%M:%S %Y %z').timestamp()) )
+
+    
+    print("- - - Data - - - E")
+    #datetime.strptime('Jun 1 2005  1:33PM', '%b %d %Y %I:%M%p')
     
 if __name__ == '__main__':
     
@@ -214,7 +260,8 @@ if __name__ == '__main__':
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # go through repo list and get status
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    repo_report = get_status_of_local_git_repos(repo_list)
-
+    #repo_report = get_status_of_local_git_repos(repo_list)
     #display_repo_data_to_console(repo_report)
-    #pprint(repo_report)
+    #pprint(repo_report['00_flask'])
+    
+    get_date_info()
