@@ -19,7 +19,7 @@
 ### Next steps
 
 Order repos by last touch:  
-get last commit from each repo using ```$ git log -1```  
+
 Get next steps & status colour & reason from context.md  
 Set background colour according to status (Use blue for parked)  
 Report next steps in card - repo report
@@ -34,7 +34,7 @@ Finish JS auto complete exercize
 ### Completed
 2019.Aug.02 - Update sequence diagram of report.
 
-
+2019.Aug.02 - Get last commit from each repo using ```$ git log -1```  
 2019.Aug.01 - Draw sequence diagram of report.
 2019.Jul.31 - Added auto gen TOC see HowTo: create_TOC_for_md.py
 2019.Jul.25 - Create context.md layout template based on FTD doc.  
