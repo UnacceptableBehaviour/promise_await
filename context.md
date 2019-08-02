@@ -1,5 +1,5 @@
 # Context
-## Status:
+## Status: Adding status reporting to rep list. WIP
 [AMBER]
 
 ## Contents
@@ -17,23 +17,22 @@
 	2. [GFM - Git Flavoured Markdown](#gfm--git-flavoured-markdown)
 
 ### Next steps
-
 Order repos by last touch:  
-
-Get next steps & status colour & reason from context.md  
 Set background colour according to status (Use blue for parked)  
-Report next steps in card - repo report
-Create an Open readme  button for each repo with href to README.md for that repo
-? - Combine ‘Get Data’ & ‘Git Status’ functionality into one button - await?  
-1d - See how may anti patterns we've trodden in: Promises & their anti patterns  
+Report next steps in card - repo report  
+Create an Open readme  button for each repo with href to README.md for that repo  
+(https://github.com/${user_name}/${repo_name}/blob/master/README.md)  
+See how may anti patterns we've trodden in: Promises & their anti patterns  
 (https://www.nearform.com/blog/javascript-promises-the-definitive-guid)   
-Break git tool out into separate repo and park it
-Finish JS auto complete exercize
+Break git tool out into separate repo and park it  
+Finish JS auto complete exercize  
 
 
 ### Completed
 2019.Aug.02 - Update sequence diagram of report.
 
+2019.Aug.02 - Get next steps & status colour & reason from context.md  
+2019.Aug.02 - Combine ‘Get Data’ & ‘Git Status’ functionality into one button.
 2019.Aug.02 - Get last commit from each repo using ```$ git log -1```  
 2019.Aug.01 - Draw sequence diagram of report.
 2019.Jul.31 - Added auto gen TOC see HowTo: create_TOC_for_md.py

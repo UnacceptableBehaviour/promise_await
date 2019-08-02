@@ -5,6 +5,7 @@
 # in the online user profile - GitAPI
 
 import os                   # chdir(dir), getcwd
+import sys                  # no __func__ use 'sys._getframe().f_code.co_name'
 import subprocess           # subprocess.run(command, arg)
 import re                   # regular expresions
 import json                 # json parsing
@@ -157,10 +158,17 @@ def get_status_of_local_git_repos(repo_list, debug_level=0):
             
             logging.debug(f"\n- - returned from shell - - {repo}")
             logging.debug(repo_status)
-            repo_report[repo] = process_git_status(repo_status)
+            repo_report[repo] = process_git_status(repo_status)            
             
-            repo_report[repo]['date_activity'] = get_date_info()[0]
-            repo_report[repo]['date_touch'] = get_date_info()[1]
+            # get latest activity and when most active
+            for key, value in get_date_info().items():
+                repo_report[repo][key] = value
+            
+            # get status, heat & next steps
+            for key, value in get_status_info().items():
+                repo_report[repo][key] = value          
+            
+            
             logging.debug("- - - - - - - - - - - - - - - - - - - -|")
             
         else:
@@ -175,20 +183,53 @@ def display_repo_data_to_console(repo_report):
     logging.info("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
     logging.info(f"Status of all repos belonging to user: {repo_payload_dict['user']}")
     logging.info("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
-    #pprint(repo_report)
-    for repo in repo_report:
-        if len(repo_report[repo]) == 0:
-            logging.info(f"==> Repo: {repo} up to date.")
-        else:
-            logging.info(f"==> Repo: {repo} outstanding.")
-            
-            for status in repo_report[repo]:
-                logging.info(f"\t{status.upper()}")
-                
-                for file in repo_report[repo][status]:
-                    logging.info(f"\t\t{file}")    
     
+    for repo in repo_report:
+        logging.info(f"- - - - - - - - - - - - - - - - - - : {repo} <<")
+        #pprint(repo_report[repo])
+        logging.info(repo_report[repo])
+        logging.info(f"\n")
     logging.info("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
+
+def get_status_info(context_file='./context.md'):
+        
+    status_text = ''
+    status_heat = ''
+    status_next = ''    
+    status_text_regex = '## Status:(.*?)^\[(\w+)\]'
+    status_next_regex = '### Next steps(.*?)^### Completed'
+    
+    if Path(context_file).exists():    
+        with open(context_file) as f:
+            context = f.read()
+            
+            # get status test and heat(RED, AMBER, GREEN, BLUE)
+            try:
+                match = re.search(status_text_regex, context, re.S | re.M)
+                status_text = match.group(1).strip()
+                status_heat = match.group(2).strip()        
+            
+            except (AttributeError, IndexError) as e:
+                logging.info(f"Exception: IndexError in {__file__}/{sys._getframe().f_code.co_name} TEXT/HEAT")
+                
+            try:
+                match = re.search(status_next_regex, context, re.S | re.M)
+                pre_process_text = match.group(1)
+                
+                # remove md CRLF (space,space \n) replace with HTML CRLF (<br>)
+                status_next = '<br>'.join( [line.strip() for line in pre_process_text.strip().splitlines()] ) 
+            
+            except (AttributeError, IndexError) as e:
+                #logging.info(f"Exception: IndexError in {__func__} NEXT STEPS")
+                logging.info(f"Exception: IndexError in {__file__}/{sys._getframe().f_code.co_name} NEXT STEPS")
+                
+    return {
+        'status_text':status_text,
+        'status_heat':status_heat,
+        'status_next':status_next
+    }
+
+
 
 #$ git log -1 | grep Date  >Date:   Fri Aug 2 11:29:08 2019 +0100
 def get_date_info():
@@ -245,7 +286,7 @@ def get_date_info():
         print('get_date_info() should be run from the appropriate git directory')
         
     finally:        
-        return tuple( [round(general_date,0), touch_date] ) 
+        return { 'general_date':round(general_date,0), 'touch_date':touch_date }
     
     
 if __name__ == '__main__':

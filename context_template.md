@@ -1,9 +1,9 @@
 # Context
-## Status: getting FONA hadshake to work
+## Status: project current status
 [AMBER]
 
 ## Contents
-1. [Status: getting FONA hadshake to work](#status-getting-fona-hadshake-to-work)
+1. [Status: project current status](#status-project-current-status)
 2. [Contents](#contents)
 3. [Next steps](#next-steps)
 4. [Completed](#completed)
@@ -76,8 +76,12 @@ $ create_TOC_for_md.py                      # run script
 
 
 ## TIPS
-Keep status concise:\
-start w/ RED, AMBER, GREEN (colours report box)\
+Keep status concise:  
+Put the colour in square brackets on the next line immediately after status  
+RED	- Stalled, technology/cost barrier.
+AMBER - Work in progress.
+GREEN - Complete.
+BLUE - Parked, no action planned. (maybe incomplete / redundant)
 
 <br>/CRLF in markdown is endline \\
 
