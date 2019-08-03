@@ -16,14 +16,7 @@
     .repo-inner {
       display: flex;
       background:#f4f4f4;
-      padding:10px;
-      margin-bottom:0px;
-    }
-
-    .repo-output-warn {
-      display: flex;
-      background:#FF3881;
-      padding:10px;
+      padding:5px;
       margin-bottom:0px;
     }
     
@@ -37,21 +30,37 @@
       background:#C4C6FF;
     }
 
+    .repo-output-info {
+      display: flex;          /*removing flex lays inner cards in rows - looks neat!*/
+      padding:10px;
+      margin-bottom:0px;
+    }    
     
-    .repo-output-good {
+    .repo-output-parked {
       display: flex;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      margin-bottom:0px;
+    }
+
+    .rop-heat-blue {
+      background:#3E9DE0;
+    }
+
+    .rop-heat-green {
       background:#59AF1C;
-      padding:10px;
-      margin-bottom:0px;
     }
 
-    .repo-output-good {
-      display: flex;      
-      padding:10px;
-      margin-bottom:0px;
+    .rop-heat-amber {
+      background:#E8BA3E;
     }
 
-    
+    .rop-heat-red {
+      background:#FF3881;
+    }
+        
     .repo-inner ul{
       list-style: none;
       padding-left: 10px;
@@ -74,10 +83,14 @@
       padding-bottom: 0px;      
     }
     
+    .next-step-info {
+      padding-left: 20px;      
+    }
     
     p {
       margin-bottom: 0;
     }
+    
 </style>
 <script>
   var repoData = {{ repo_data|tojson }};       // convert info using tojson filter
@@ -95,23 +108,22 @@
       <button class="btn btn-warning mr-4" id='button-git-status'>GIT STATUS</button>
       <button class="btn btn-success mr-4" id='button-git-ai1'>GIT ALL in 1</button>
     </div>
-    <div id="simple-output"></div>
+    <div id="simple-output">Basic feedback for user</div>
     <br>
     <div id="repos"></div>
   </div>
 
   <hr>
   
-  <div class='container card repo-outer'>
-    <!--example of target output-->
-    <!--<img src="https://avatars2.githubusercontent.com/u/8268797?v=4" width="35" height="35"> -->
+  <!--example of target output-->
+  <div class='container card repo-outer'>            
     <div class="card-header">
       <h5 id='00_example_tile'>Repo: 00_example</h5>
       <p id='00_example_desc'>This is what we're aiming to create using JS & returned data:</p>
     </div>
     
-    <div id="repo-output">
-      <div id="00_example" class="repo-inner">
+    <div class="repo-output-info rop-heat-red">
+      <div id="00_example" class="repo-inner rop-heat-red">
         <div class='card changes_to_commit'>
           <ul id="00_example_ul_changes_to_commit">
             <li>CHANGES_TO_COMMIT: 2</li>
@@ -133,13 +145,48 @@
             <li>deep_in_the_bowels/nutrients.html</li>
           </ul>
         </div>
-      </div>
-      
+      </div>      
+    </div>    
+    <div class="next-step-info">
+      <h8><b>Next Steps</b></h8>
+      <p id="00_example_next_text">Order repos by last touch:<br>Get next steps & status colour & reason from context.md<br>Set background colour according to status (Use blue for parked)<br>Report next steps in card - repo report</p>
     </div>
   </div>
   
   <hr>
   
+  <div class="container card repo-outer">                                        
+    <div class="card-header">
+      <h5 id="00_flask_tile">Repo: 00_flask</h5>
+      <p id="00_flask_desc">Flask tutorial - newbie level</p>
+    </div>
+
+    <div id="repo-output">
+        <div id="00_flask" class="repo-output-warn">
+          <div class="card changes_to_commit">
+              <ul id="00_flask_ul_changes_to_commit">
+                <li>CHANGES_TO_COMMIT: 1</li>
+                <li>README.md</li>
+              </ul>
+          </div>
+          <div class="card not_staged">
+              <ul id="00_flask_ul_not_staged">
+                <li>NOT_STAGED: 1</li>
+                <li>templates/index.html</li>
+              </ul>
+          </div>
+          <div class="card untracked">
+            <ul id="00_flask_ul_untracked">
+              <li>UNTRACKED: 3</li>
+              <li>antenna_physics.txt</li><li>plasmaContainment.xls</li><li>stelarator.arxiv</li>
+            </ul>
+          </div>
+        </div>
+    </div>
+    
+  
   <script src="static/js_fetch_both_ways_example.js"></script>
+
+  <hr>
 
 {% endblock %}

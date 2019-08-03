@@ -1,5 +1,6 @@
 # for osx
 .DS_Store
+*_bak.*
 
 # ignore directory and contents
 /__pycache__

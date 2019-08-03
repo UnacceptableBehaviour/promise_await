@@ -29,13 +29,12 @@ Finish JS auto complete exercize
 
 
 ### Completed
-2019.Aug.02 - Update sequence diagram of report.
-
+2019.Aug.02 - Update sequence diagram of report.  
 2019.Aug.02 - Get next steps & status colour & reason from context.md  
-2019.Aug.02 - Combine ‘Get Data’ & ‘Git Status’ functionality into one button.
+2019.Aug.02 - Combine ‘Get Data’ & ‘Git Status’ functionality into one button.  
 2019.Aug.02 - Get last commit from each repo using ```$ git log -1```  
-2019.Aug.01 - Draw sequence diagram of report.
-2019.Jul.31 - Added auto gen TOC see HowTo: create_TOC_for_md.py
+2019.Aug.01 - Draw sequence diagram of report.  
+2019.Jul.31 - Added auto gen TOC see HowTo: create_TOC_for_md.py  
 2019.Jul.25 - Create context.md layout template based on FTD doc.  
 2019.Jul.14 - Use JS to display the results  
 2019.Jul.13 - Bootstrap report card  

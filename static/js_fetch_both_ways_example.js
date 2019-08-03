@@ -15,53 +15,56 @@ function stamp(){
   dt = (new Date);
   return `${dt.getSeconds()}.${dt.getMilliseconds()}`;
 }
+//// = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+//// function not called - example of template                    TODO REDO after redesign
+//// = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+//function create_repo_report_element(repo_name_key, repo_data){
+//
+//  // template for repo report card
+//  html_template = `<div class='container card repo-outer'>
+//      <!--example of target output-->
+//      <!--<img src="https://avatars2.githubusercontent.com/u/8268797?v=4" width="35" height="35"> -->
+//      <div class="card-header">
+//        <h5 id='${repo_name_key}_tile'>Repo: ${repo_name_key}</h5>
+//        <p id='${repo_name_key}_desc'>${repo_data[repo_name_key].desc}</p>
+//      </div>
+//      
+//      <div id="repo-output">
+//        <div id="${repo_name_key}" class="repo-inner">
+//          <div class='card'>
+//            <ul id="${repo_name_key}_ul_changes_to_commit">
+//              <li>CHANGES_TO_COMMIT: ${repo_data[repo_name_key].changes_to_commit.length}</li>
+//            
+//            </ul>
+//          </div>
+//          <div class='card'>
+//            <ul id="${repo_name_key}_ul_not_staged">
+//              <li>NOT_STAGED: ${repo_data[repo_name_key].not_staged.length}</li>
+//              <li>README.md</li>
+//              <li>templates/index.html</li>
+//              <li>holy.grail</li>
+//            </ul>
+//          </div>
+//          <div class='card'>
+//            <ul id="${repo_name_key}_ul_untracked">          
+//              <li>UNTRACKED: ${repo_data[repo_name_key].untracked.length}</li>
+//              <li>deep_in_the_bowels/nutrients.html</li>
+//            </ul>
+//          </div>
+//        </div>
+//        
+//      </div>
+//    </div>`;
+//    
+//    
+//    return html_template;
+//    
+//}
 
-// function not called - example of template 
-function create_repo_report_element(repo_name_key, repo_data){
-
-  // template for repo report card
-  html_template = `<div class='container card repo-outer'>
-      <!--example of target output-->
-      <!--<img src="https://avatars2.githubusercontent.com/u/8268797?v=4" width="35" height="35"> -->
-      <div class="card-header">
-        <h5 id='${repo_name_key}_tile'>Repo: ${repo_name_key}</h5>
-        <p id='${repo_name_key}_desc'>${repo_data[repo_name_key].desc}</p>
-      </div>
-      
-      <div id="repo-output">
-        <div id="${repo_name_key}" class="repo-inner">
-          <div class='card'>
-            <ul id="${repo_name_key}_ul_changes_to_commit">
-              <li>CHANGES_TO_COMMIT: ${repo_data[repo_name_key].changes_to_commit.length}</li>
-            
-            </ul>
-          </div>
-          <div class='card'>
-            <ul id="${repo_name_key}_ul_not_staged">
-              <li>NOT_STAGED: ${repo_data[repo_name_key].not_staged.length}</li>
-              <li>README.md</li>
-              <li>templates/index.html</li>
-              <li>holy.grail</li>
-            </ul>
-          </div>
-          <div class='card'>
-            <ul id="${repo_name_key}_ul_untracked">          
-              <li>UNTRACKED: ${repo_data[repo_name_key].untracked.length}</li>
-              <li>deep_in_the_bowels/nutrients.html</li>
-            </ul>
-          </div>
-        </div>
-        
-      </div>
-    </div>`;
-    
-    
-    return html_template;
-    
-}
-
-
-// create a card with a list of files for each REPO file category(card_key_as_title)
+// create cards for bottom half of report card
+// create a card with a list of files for each
+// REPO file category(card_key_as_title) : changes_to_commit, not_staged, untracked
+//
 function createRepoReportFileListCard(repo_name_key, card_key_as_title, file_list){
 
   // construct the list to go in the card
@@ -85,9 +88,7 @@ function createRepoReportFileListCard(repo_name_key, card_key_as_title, file_lis
   return card_element_as_html;
 }
 
-// create bottom half of report card - WARNING VERSION
-// => background colour ALREADY decided!
-// at least ONE array exists in repo_data
+// create bottom half of report card
 function createRepoReportOutputSection(repo_name_key, repo_data){
   //EG incoming
   //repo_name_key = 00_flask    file_lists
@@ -96,45 +97,14 @@ function createRepoReportOutputSection(repo_name_key, repo_data){
   //                            not_staged: ["templates/index.html"]
   //                            untracked: ["antenna_physics.txt"]    }
   
-  // opening html - backround colour: WARNING
-  var output_section_html = `<div id="repo-output">
+  // opening html - backround colour: WARNING  - // TODO id hsou
+  var output_section_html = `<div class="repo-output">
         <div id="${repo_name_key}" class="repo-output-warn">`;
   
   
   file_lists = repo_data[repo_name_key];
   delete file_lists['desc'];
   
-  // DIFFERENT WAYS TO DO THIS LOOP
-  // bench: https://hackernoon.com/5-techniques-to-iterate-over-javascript-object-entries-and-their-performance-6602dcb708a8
-  //
-  // could use an array of keys to control the order if necessary
-  // loop through arrays - skip description (desc)
-  //for (let [card_key_as_title, file_list] of Object.entries(file_lists)) {    // TICK - WORK
-  //  console.log('for (let [key, file_list] of Object.entries(file_lists))');
-  //  console.log(card_key_as_title);
-  //  console.log(file_list);
-  //  console.log('...........');
-  //  output_section_html += createRepoReportFileListCard(repo_name_key, card_key_as_title, file_list);
-  //}
-  // - - 
-  //Object.entries(repo_data).forEach(                // NEEDS WORK
-  //    ([card_key_as_title, file_list]) => {
-  //        console.log('Object.entries(repo_data).forEach(');
-  //        console.log(card_key_as_title);
-  //        console.log(file_list);
-  //        console.log('...........');
-  //        output_section_html += createRepoReportFileListCard(repo_name_key, card_key_as_title, file_list);
-  //        }
-  //);
-  // recode using for in - just want to see if above works  
-  //for (var card_key_as_title in file_lists) {
-  //  file_list = file_lists[card_key_as_title];
-  //  console.log('for (var card_key_as_title in file_lists)');
-  //  console.log(card_key_as_title);
-  //  console.log(file_list);
-  //  console.log('...........');    
-  //  output_section_html += createRepoReportFileListCard(repo_name_key, card_key_as_title, file_list);  
-  //}
   // recode using for in - and an array to create specific order
   var order_of_lists = [ 'changes_to_commit', 'not_staged', 'untracked'];
   
@@ -143,14 +113,13 @@ function createRepoReportOutputSection(repo_name_key, repo_data){
     
     if (card_key_as_title in file_lists) {          // make sure we're not firing blank list over
       file_list = file_lists[card_key_as_title];
-      console.log('ARRAY for (var card_key_as_title in order_of_lists)');
-      console.log(card_key_as_title);
-      console.log(file_list);
-      console.log('...........');     
+      //console.log('ARRAY for (var card_key_as_title in order_of_lists)');
+      //console.log(card_key_as_title);
+      //console.log(file_list);
+      //console.log('...........');     
       output_section_html += createRepoReportFileListCard(repo_name_key, card_key_as_title, file_list);        
     }
   }
-
   
   // closing html
   output_section_html +=  `</div></div>`;
@@ -197,10 +166,10 @@ function create_filled_in_status_element(repo_name_key, repo_data){
   }
   
   
-  // template for repo report card
+  // template for repo report card  - TODO add touch date here - at begining of desciption?
   html_template =  `<div class='container card repo-outer'>                                        
                       <div class="card-header">
-                        <h5 id='${repo_name_key}_tile'>Repo: ${repo_name_key}</h5>
+                        <h5 id='${repo_name_key}_tile'>Repo: ${repo_name_key}</h5> 
                         <p id='${repo_name_key}_desc'>${description}</p>
                       </div>
                       ${output_section_html}
@@ -215,8 +184,6 @@ function create_filled_in_status_element(repo_name_key, repo_data){
 status_colour = COLOUR_WARNING;
 example_repo_container_div = document.getElementById('00_example');
 example_repo_container_div.style.backgroundColor = status_colour;
-
-
 
 console.log(`repoData JS ${repoData['greeting']} - inline CONCLUDED`);  // sanity check
 
@@ -480,9 +447,8 @@ async function fetchButtonAllInOne(){
   
   outputDiv.innerHTML = 'Getting info from GIT, comparing to local repos, and reporting . . ';
 
-  // asynch_await.js ln 63
-  // get git info here await it
-
+  // = = = = - - - - = = = = - - - - = = = = - - - - = = = = - - - - 
+  // get git info as JSON from github here - await it
   
   console.log(`BEFORE await fetch: ${Object.keys(reposFromGit).length} - ${stamp()}`);
   console.log(`fetching: https://api.github.com/users/${userName}/repos`);
@@ -490,26 +456,6 @@ async function fetchButtonAllInOne(){
   const resp = await fetch( `https://api.github.com/users/${userName}/repos` );
   
   reposFromGit = await resp.json();     // convert response to obj - use JSON.parse(text); for converting text to obj 
-
-  // TODO Ex - work out wy the following works in fetchButtonGET() but not here? asynch?    
-  //fetch( `https://api.github.com/users/${userName}/repos` )
-  //  .then(
-  //    function(response) {
-  //      if (response.status !== 200) {
-  //        console.log(`Looks like there was a problem. Status Code: ${response.status}`);
-  //        return;
-  //      }
-  //      
-  //      console.log(`fetch.then response.text: ${response} - ${stamp()}`);
-  //      return response.text();
-  //  
-  //    }
-  //  ).then(
-  //    function(text) {        
-  //      reposFromGit = JSON.parse(text);
-  //      console.log(`fetch.then.then reposFromGit: ${reposFromGit} - ${stamp()}`);
-  //    }
-  //  );      
 
   console.log(`AFTER await fetch: ${Object.keys(reposFromGit).length} - ${stamp()}`);
     
@@ -519,7 +465,7 @@ async function fetchButtonAllInOne(){
     
   }  
   
-  
+  // = = = = - - - - = = = = - - - - = = = = - - - - = = = = - - - - 
   // get local repo status info - POST list of repo name to server for info retrieval.
   fetch( '/js_fetch_test', {
     method: 'POST',                                 // method (default is GET)
@@ -540,14 +486,8 @@ async function fetchButtonAllInOne(){
     console.log('repo_data sep pre - - - - - - - - - - - - - - - - - - - - S');
     
     console.log(repo_data);
-    
-    // possible refactor using
-    // Object.assign(dest, src1, src2, ...) merges objects.
-    // It overwrites dest with properties and values of (however many) source objects, then returns dest.
-    // The Object.assign() method is used to copy the values of all enumerable own properties from one or
-    // more source objects to a target object. It will return the target object.
-
-    // merge repo description into repo_data 
+        
+    // merge repo description (from GitHub) into repo_data (retrieved from local)
     for (var i in reposFromGit){
       
       console.log(reposFromGit[i].name);
@@ -570,24 +510,27 @@ async function fetchButtonAllInOne(){
       
     }
     
+    
+    // = = = = - - - - = = = = - - - - = = = = - - - - = = = = - - - -
+    // build HTML for repo container - id="repos"
+    
     var output = '';
     
     for (var key in repo_data){
       
       // sanity check to make sure data is where we think it is!!
-      console.log("8-8-8-8-8-8-object-inspect - *");
-      console.log(`REPO NAME(&key): ${key} <`);    
-      console.log(repo_data[key].desc);
-      console.log(repo_data[key].changes_to_commit);
-      console.log(repo_data[key].not_staged);
-      console.log(repo_data[key].untracked);
-      console.log('#-=#=-#-S');
-      console.log(repo_data[key]);
-      //console.log(createRepoReportFileListCard(key, 'changes_to_commit', repo_data[key].changes_to_commit));
-      console.log('#-=#=-#-E');
-      //output += create_repo_report_element(key, repo_data);
+      //console.log("8-8-8-8-8-8-object-inspect - *");
+      //console.log(`REPO NAME(&key): ${key} <`);    
+      //console.log(repo_data[key].desc);
+      //console.log(repo_data[key].changes_to_commit);
+      //console.log(repo_data[key].not_staged);
+      //console.log(repo_data[key].untracked);
+      //console.log('#-=#=-#-S');
+      //console.log(repo_data[key]);
+      //console.log('#-=#=-#-E');
+
       output += create_filled_in_status_element(key, repo_data);
-      //output += createRepoReportOutputSection(key, repo_data);
+
     }
     
     document.getElementById('repos').innerHTML = output;          
@@ -622,7 +565,6 @@ async function fetchButtonAllInOne(){
         console.log('====================');
         console.log(repo_container_div.children.length)
         console.log('====================');
-
         
     }
     

@@ -78,10 +78,10 @@ $ create_TOC_for_md.py                      # run script
 ## TIPS
 Keep status concise:  
 Put the colour in square brackets on the next line immediately after status  
-RED	- Stalled, technology/cost barrier.
+RED   - Stalled, technology/cost barrier.
 AMBER - Work in progress.
 GREEN - Complete.
-BLUE - Parked, no action planned. (maybe incomplete / redundant)
+BLUE  - Parked, no action planned. (maybe incomplete / redundant)
 
 <br>/CRLF in markdown is endline \\
 
