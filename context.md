@@ -3,25 +3,21 @@
 [AMBER]
 
 ## Contents
-1. [Status:](#status)
+1. [Status: Adding status reporting to rep list. WIP](#status-adding-status-reporting-to-rep-list-wip)
 2. [Contents](#contents)
 	1. [Next steps](#next-steps)
 	2. [Completed](#completed)
-3. [How To's](#how-tos)
+3. [Questions / Barriers](#questions--barriers)
+4. [How To's](#how-tos)
 	1. [How do I insert a TOC?](#how-do-i-insert-a-toc)
 	2. [How do I auto generate TOC?](#how-do-i-auto-generate-toc)
-4. [Questions / Barriers](#questions--barriers)
 5. [TIPS](#tips)
 6. [REFERENCES](#references)
 	1. [Markdown cheat sheet](#markdown-cheat-sheet)
 	2. [GFM - Git Flavoured Markdown](#gfm--git-flavoured-markdown)
 
 ### Next steps
-Order repos by last touch:  
-Set background colour according to status (Use blue for parked)  
-Report next steps in card - repo report  
-Create an Open readme  button for each repo with href to README.md for that repo  
-(https://github.com/${user_name}/${repo_name}/blob/master/README.md)  
+Order repos by last touch (or average touch: 'general_date': 1563990008.0).  
 See how may anti patterns we've trodden in: Promises & their anti patterns  
 (https://www.nearform.com/blog/javascript-promises-the-definitive-guid)   
 Break git tool out into separate repo and park it  
@@ -29,6 +25,9 @@ Finish JS auto complete exercize
 
 
 ### Completed
+2019.Aug.03 - Create an Open readme  button for each repo with href to README.md for that repo  
+2019.Aug.03 - Set background colour according to status (Use blue for parked)
+2019.Aug.03 - Report next steps in card - repo report  
 2019.Aug.02 - Update sequence diagram of report.  
 2019.Aug.02 - Get next steps & status colour & reason from context.md  
 2019.Aug.02 - Combine ‘Get Data’ & ‘Git Status’ functionality into one button.  

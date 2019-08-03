@@ -9,6 +9,8 @@ const colourLookUp = {
     'BLUE':  'rop-heat-blue'
 }
 
+var userName = 'UnacceptableBehaviour';
+
 // conventions in this file:
 // html hardcodeed tags (searchable) use hyphen:
 //                                  repo-outer, repo-output, button-fetch-get
@@ -167,6 +169,7 @@ function createRepoReportOutputSection(repo_name_key, data_for_this_repo){
 <div class="next-step-info">
   <h8><b>Next Steps</b></h8>
   <p id="${repo_name_key}_next_text">${data_for_this_repo['status_next']}</p>
+  <a class="btn btn-dark float-md-right" href="https://github.com/${userName}/${repo_name_key}/blob/master/README.md">README.md</a>
 </div>
 `
 
@@ -237,7 +240,7 @@ buttonGitStats.addEventListener('click', fetchButtonGitStatus )
 
 buttonGitAllInOne.addEventListener('click', fetchButtonAllInOne )
 
-userName = 'UnacceptableBehaviour';      
+      
 console.log(`getting repos for user ${userName}`);
   
 
@@ -495,7 +498,7 @@ async function fetchButtonAllInOne(){
   }  
 
   // high jack the return data reduce to 4 repos: 00_flask, mysql_python, linux_bike, assest_server
-  repoPostList = ['00_flask', 'mysql_python', 'linux_bike', 'assest_server'];
+  repoPostList = ['promise_await', 'mysql_python', 'linux_bike', 'assest_server'];
   
 
   

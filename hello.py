@@ -81,6 +81,10 @@ def js_fetch_test():
         print(posted_data['repos'])
         repo_report = get_status_of_local_git_repos(posted_data['repos'])
         
+        for r in repo_report:
+            print(f"{r}: {repo_report[r]['status_next']}")
+            pprint(repo_report[r])
+        
         #repo_report['greeting'] = 'Return from POST'
         
         #return 'OK', 200
