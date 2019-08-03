@@ -137,7 +137,7 @@ function createRepoReportOutputSection(repo_name_key, data_for_this_repo){
   // recode using for in - and an array to create specific order
   var order_of_lists = [ 'changes_to_commit', 'not_staged', 'untracked'];
   
-  for (var index in order_of_lists) {   // thought this would yiel strings, but it gives numbers
+  for (var index in order_of_lists) {   // thought this would yield strings, but it gives numbers
     card_key_as_title = order_of_lists[index];
  
     try {
@@ -153,9 +153,24 @@ function createRepoReportOutputSection(repo_name_key, data_for_this_repo){
     } catch (error) { console.log(`ERROR in createRepoReportOutputSection: ${error.name}`); }
       
   }
-  
+
+
   // closing html
   output_section_html +=  `</div></div>`;
+    
+  // add next steps if we have any
+  if (data_for_this_repo['status_next'] === ""){
+    data_for_this_repo['status_next'] = "None found: assume PARKED"
+  }
+  
+  output_section_html += `
+<div class="next-step-info">
+  <h8><b>Next Steps</b></h8>
+  <p id="${repo_name_key}_next_text">${data_for_this_repo['status_next']}</p>
+</div>
+`
+
+
   
   return output_section_html;
 }
