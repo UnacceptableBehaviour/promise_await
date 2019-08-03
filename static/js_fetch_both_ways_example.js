@@ -2,6 +2,13 @@
 COLOUR_WARNING = '#FF3881';
 COLOUR_WE_ARE_GOOD = '#59AF1C';
 
+const colourLookUp = {
+    'RED':   'rop-heat-blue',
+    'AMBER': 'rop-heat-green',
+    'GREEN': 'rop-heat-amber',
+    'BLUE':  'rop-heat-red'
+}
+
 // conventions in this file:
 // html hardcodeed tags (searchable) use hyphen:
 //                                  repo-outer, repo-output, button-fetch-get
@@ -89,36 +96,56 @@ function createRepoReportFileListCard(repo_name_key, card_key_as_title, file_lis
 }
 
 // create bottom half of report card
-function createRepoReportOutputSection(repo_name_key, repo_data){
+function createRepoReportOutputSection(repo_name_key, data_for_this_repo){
   //EG incoming
-  //repo_name_key = 00_flask    file_lists
-  //repo_data = { 00_flask : {  changes_to_commit: ["README.md", "diffusion.cc"]
-  //                            desc: "Flask tutorial - newbie level"
-  //                            not_staged: ["templates/index.html"]
-  //                            untracked: ["antenna_physics.txt"]    }
+  //repo_name_key = 00_flask
+  //repo_data = 00_flask:
+  //
+  //data_for_this_repo:
+  //              changes_to_commit:
+  //                  ["README.md"]
+  //              general_date: 1552149499
+  //              not_staged:
+  //                  ["templates/index.html"]
+  //              status_heat: ""
+  //              status_next: ""
+  //              status_text: ""
+  //              touch_date: 1553201441
+  //              untracked: Array(3)
+  //                  0: "antenna_physics.txt"
+  //                  1: "plasmaContainment.xls"
+  //                  2: "stelarator.arxiv"
+  // report contents:
+  // name                 repo_data - repo_name_key
+  // description          repo_data[repo_name_key].desc
+  // changes_to_commit    repo_data[repo_name_key].changes_to_commit
+  // not_staged           repo_data[repo_name_key].not_staged
+  // untracked            repo_data[repo_name_key].untracked
+  
+  //heat = 
   
   // opening html - backround colour: WARNING  - // TODO id hsou
-  var output_section_html = `<div class="repo-output">
-        <div id="${repo_name_key}" class="repo-output-warn">`;
-  
-  
-  file_lists = repo_data[repo_name_key];
-  delete file_lists['desc'];
-  
+  var output_section_html = `<div class="repo-output-info rop-heat-red">
+        <div id="${repo_name_key}" class="repo-inner rop-heat-red">`;
+      
   // recode using for in - and an array to create specific order
   var order_of_lists = [ 'changes_to_commit', 'not_staged', 'untracked'];
   
   for (var index in order_of_lists) {   // thought this would yiel strings, but it gives numbers
     card_key_as_title = order_of_lists[index];
-    
-    if (card_key_as_title in file_lists) {          // make sure we're not firing blank list over
-      file_list = file_lists[card_key_as_title];
-      //console.log('ARRAY for (var card_key_as_title in order_of_lists)');
-      //console.log(card_key_as_title);
-      //console.log(file_list);
-      //console.log('...........');     
-      output_section_html += createRepoReportFileListCard(repo_name_key, card_key_as_title, file_list);        
-    }
+ 
+    try {
+
+      if (card_key_as_title in data_for_this_repo) {  // make sure we're not firing blank list over
+      
+        file_list = data_for_this_repo[card_key_as_title];
+        
+        output_section_html += createRepoReportFileListCard(repo_name_key, card_key_as_title, file_list);        
+      
+      }      
+
+    } catch (error) { console.log(`ERROR in createRepoReportOutputSection: ${error.name}`); }
+      
   }
   
   // closing html
@@ -137,35 +164,14 @@ function createRepoReportOutputSection(repo_name_key, repo_data){
 //
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 function create_filled_in_status_element(repo_name_key, repo_data){
-  //EG incoming
-  //repo_name_key = 00_flask
-  //repo_data = { 00_flask : {  changes_to_commit: ["README.md"]
-  //                            desc: "Flask tutorial - newbie level"
-  //                            not_staged: ["templates/index.html"]
-  //                            untracked: ["antenna_physics.txt"]    }
-  // report contents:
-  // name                 repo_data - repo_name_key
-  // description          repo_data[repo_name_key].desc
-  // changes_to_commit    repo_data[repo_name_key].changes_to_commit
-  // not_staged           repo_data[repo_name_key].not_staged
-  // untracked            repo_data[repo_name_key].untracked
 
   var description = repo_data[repo_name_key].desc;
   
   // is is a GREEN card or a RED card?  
   var output_section_html = '';
   
-  // if (repo_data[repo_name_key].keys > 1) {  NO WORK
-  if (Object.keys(repo_data[repo_name_key]).length > 1) {  // we have file lists  
-    // create WARNING output
-    output_section_html = createRepoReportOutputSection(repo_name_key, repo_data);
-  
-  } else {
-    // create OK output
-    output_section_html = `<div id="repo-output" class="repo-output-good">Repo: ${repo_name_key} is up to date.</div>`;
-  }
-  
-  
+  output_section_html = createRepoReportOutputSection(repo_name_key, repo_data[repo_name_key]);
+    
   // template for repo report card  - TODO add touch date here - at begining of desciption?
   html_template =  `<div class='container card repo-outer'>                                        
                       <div class="card-header">
@@ -438,10 +444,12 @@ function fetchButtonGitStatus(){
 }
 
 
-
-
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // all together
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 async function fetchButtonAllInOne(){
   
@@ -464,6 +472,11 @@ async function fetchButtonAllInOne(){
     repoPostList.push(reposFromGit[key].name);      // extract name of each repo for this user
     
   }  
+
+  // high jack the return data reduce to 4 repos: 00_flask, mysql_python, linux_bike, assest_server
+  repoPostList = ['00_flask', 'mysql_python', 'linux_bike', 'assest_server'];
+  
+
   
   // = = = = - - - - = = = = - - - - = = = = - - - - = = = = - - - - 
   // get local repo status info - POST list of repo name to server for info retrieval.
@@ -510,7 +523,6 @@ async function fetchButtonAllInOne(){
       
     }
     
-    
     // = = = = - - - - = = = = - - - - = = = = - - - - = = = = - - - -
     // build HTML for repo container - id="repos"
     
@@ -539,36 +551,8 @@ async function fetchButtonAllInOne(){
     
     console.log(repo_data);
     
-    return
+    return;
     
-    text = 'iterator 2 style- - - - - - - - - - - - - - - - - - - - '
-    console.log(`POST response: ${text}`);        
-    for (const [key, value] of Object.entries(repo_data)) {
-        console.log(key, value);
-        
-        repo_container_div = document.getElementById(key);
-        repo_list = document.getElementsByTagName(`${key}_ul`);
-        
-        
-        if (Object.keys(value).length === 0) {
-          // repo has no outstanding
-          console.log(`repo ${key} has ${Object.keys(value).length} entries oustanding`)
-          // make green - all up to date
-          status_colour = COLOUR_WE_ARE_GOOD;
-        } else {
-          // make RED - oustanding Items
-          status_colour = COLOUR_WARNING;
-        }
-        
-        repo_container_div.style.backgroundColor = status_colour;
-        
-        console.log('====================');
-        console.log(repo_container_div.children.length)
-        console.log('====================');
-        
-    }
-    
-    text = 'success?'
   });
   
 }
