@@ -3,10 +3,10 @@ COLOUR_WARNING = '#FF3881';
 COLOUR_WE_ARE_GOOD = '#59AF1C';
 
 const colourLookUp = {
-    'RED':   'rop-heat-blue',
-    'AMBER': 'rop-heat-green',
-    'GREEN': 'rop-heat-amber',
-    'BLUE':  'rop-heat-red'
+    'RED':   'rop-heat-red',
+    'AMBER': 'rop-heat-amber',
+    'GREEN': 'rop-heat-green',
+    'BLUE':  'rop-heat-blue'
 }
 
 // conventions in this file:
@@ -122,11 +122,17 @@ function createRepoReportOutputSection(repo_name_key, data_for_this_repo){
   // not_staged           repo_data[repo_name_key].not_staged
   // untracked            repo_data[repo_name_key].untracked
   
-  //heat = 
+  heat = colourLookUp['BLUE'];
+  
+  if (data_for_this_repo['status_heat'] in colourLookUp) {
+    
+    heat = colourLookUp[data_for_this_repo['status_heat']];
+  
+  }
   
   // opening html - backround colour: WARNING  - // TODO id hsou
-  var output_section_html = `<div class="repo-output-info rop-heat-red">
-        <div id="${repo_name_key}" class="repo-inner rop-heat-red">`;
+  var output_section_html = `<div class="repo-output-info ${heat}">
+        <div id="${repo_name_key}" class="repo-inner ${heat}">`;
       
   // recode using for in - and an array to create specific order
   var order_of_lists = [ 'changes_to_commit', 'not_staged', 'untracked'];
