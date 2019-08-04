@@ -11,6 +11,7 @@ const colourLookUp = {
 
 var userName = 'UnacceptableBehaviour';
 
+
 // conventions in this file:
 // html hardcodeed tags (searchable) use hyphen:
 //                                  repo-outer, repo-output, button-fetch-get
@@ -106,13 +107,13 @@ function createRepoReportOutputSection(repo_name_key, data_for_this_repo){
   //data_for_this_repo:
   //              changes_to_commit:
   //                  ["README.md"]
-  //              general_date: 1552149499
+  //              date_general: 1552149499
   //              not_staged:
   //                  ["templates/index.html"]
   //              status_heat: ""
   //              status_next: ""
   //              status_text: ""
-  //              touch_date: 1553201441
+  //              date_touch: 1553201441
   //              untracked: Array(3)
   //                  0: "antenna_physics.txt"
   //                  1: "plasmaContainment.xls"
@@ -222,10 +223,12 @@ var reposFromGit = {};
 var repoPostList = [];
 
 outputDiv = document.getElementById('simple-output')
+toggleDiv = document.getElementById('sorting-by')
 buttonGet = document.getElementById('button-fetch-get')
 buttonPost = document.getElementById('button-fetch-post')
 buttonGitStats = document.getElementById('button-git-status')
 buttonGitAllInOne = document.getElementById('button-git-ai1')
+buttonToggleSort = document.getElementById('button-toggle-sort');
 
 outputDiv.innerHTML = repoData['greeting']
 
@@ -241,7 +244,23 @@ buttonGitStats.addEventListener('click', fetchButtonGitStatus )
 
 buttonGitAllInOne.addEventListener('click', fetchButtonAllInOne )
 
-      
+buttonToggleSort.addEventListener('click', toggleSortTouchGeneral )
+
+
+//var sortByTouch = true;   // sort using last touched date
+var sortByTouch = false;  // sort using average date
+var toggleButton
+
+function toggleSortTouchGeneral () {
+  if (sortByTouch === true) {
+    sortByTouch = false;
+    toggleDiv.innerHTML = 'Sorting by GENERAL date'    
+  } else {
+    sortByTouch = true
+    toggleDiv.innerHTML = 'Sorting by when last TOUCHED'
+  }  
+}
+
 console.log(`getting repos for user ${userName}`);
   
 
@@ -547,6 +566,55 @@ async function fetchButtonAllInOne(){
       }
       
     }
+    
+    console.log("> - > - > SORT TEST - S");
+    console.log(typeof(repo_data));
+    //console.log(repo_data[0]); // undefined
+    console.log(repo_data['promise_await']);
+
+    // remove keys and convert to array for sorting
+    sorted_repos = []
+    for (const [key, value] of Object.entries(repo_data)) {
+      console.log(key, value);
+      value['repo_name'] = key    // add the key to the object
+      sorted_repos.push(value)    // place it into array
+    }
+    
+    console.log("> - > - > SORT TEST - M1");
+    //console.log(sorted_repos);
+    for (const r in sorted_repos){
+      console.log(`${sorted_repos[r]['date_touch']}  - ${sorted_repos[r]['date_general']} - ${sorted_repos[r]['repo_name']}`);
+    }
+    
+    if (sortByTouch) {
+      // for sorting arrays
+      sorted_repos = sorted_repos.sort( function (a, b) {
+         return (b.date_touch - a.date_touch)
+      });
+      sorting_by =  `**  **  **  -            < sorting by`
+      
+      
+    } else {
+      
+      sorted_repos = sorted_repos.sort( function (a, b) {
+         return (b.date_general - a.date_general)       
+      });
+      sorting_by =  `            - **  **  ** < sorting by`
+      
+    }
+    
+    
+    console.log("> - > - > SORT TEST - M2");    
+    
+    console.log("* TOUCH  *  - *GENERAL * < sorting by");
+    console.log(sorting_by);
+    
+    for (const r in sorted_repos){  // this return index not objects!      
+      console.log(`${sorted_repos[r]['date_touch']}  - ${sorted_repos[r]['date_general']} - ${sorted_repos[r]['repo_name']}`);
+    }
+
+    
+    console.log("> - > - > SORT TEST - E");
     
     // = = = = - - - - = = = = - - - - = = = = - - - - = = = = - - - -
     // build HTML for repo container - id="repos"

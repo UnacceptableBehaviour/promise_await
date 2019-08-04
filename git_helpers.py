@@ -235,8 +235,8 @@ def get_status_info(context_file='./context.md'):
 def get_date_info():
     
     try:
-        touch_date = 0
-        general_date = 0
+        date_touch = 0
+        date_general = 0
         
         # NOPE
         #date_cli_return = subprocess.run(['git log -1', ''], stdout=subprocess.PIPE).stdout.decode('utf-8')
@@ -272,21 +272,21 @@ def get_date_info():
         
         epochs = [ datetime.strptime(d, time_format).timestamp() for d in git_push_dates ]
         
-        touch_date = epochs[0]                     # last put back date
+        date_touch = epochs[0]                     # last put back date
         
-        general_date = sum(epochs) / len(epochs)   # average date so a single file push or edit doesn't skew order
+        date_general = sum(epochs) / len(epochs)   # average date so a single file push or edit doesn't skew order
         
         # print("- - - Data - - - S")
-        # print(f"touch s epoch: {touch_date}")
-        # print(f"touch date: {datetime.fromtimestamp(touch_date)}")
-        # print(f"general s epoch: {round(general_date,0)}")
-        # print(f"general date: {datetime.fromtimestamp(round(general_date,0))}")    
+        # print(f"touch s epoch: {date_touch}")
+        # print(f"touch date: {datetime.fromtimestamp(date_touch)}")
+        # print(f"general s epoch: {round(date_general,0)}")
+        # print(f"general date: {datetime.fromtimestamp(round(date_general,0))}")    
         # print("- - - Data - - - E")
     except NotImplementedError:
         print('get_date_info() should be run from the appropriate git directory')
         
     finally:        
-        return { 'general_date':round(general_date,0), 'touch_date':touch_date }
+        return { 'date_general':round(date_general,0), 'date_touch':date_touch }
     
     
 if __name__ == '__main__':
