@@ -517,10 +517,6 @@ async function fetchButtonAllInOne(){
     
   }  
 
-  // high jack the return data reduce to 4 repos: 00_flask, mysql_python, linux_bike, assest_server
-  repoPostList = ['promise_await', 'mysql_python', 'linux_bike', 'assest_server'];
-  
-
   
   // = = = = - - - - = = = = - - - - = = = = - - - - = = = = - - - - 
   // get local repo status info - POST list of repo name to server for info retrieval.
@@ -567,11 +563,9 @@ async function fetchButtonAllInOne(){
       
     }
     
-    console.log("> - > - > SORT TEST - S");
-    console.log(typeof(repo_data));
-    //console.log(repo_data[0]); // undefined
-    console.log(repo_data['promise_await']);
-
+    // seems naive - got to be a better way to do this
+    // = = = = - - - - = = = = - - - - = = = = - - - - = = = = - - - -
+    // sort repos by date order according to config setting: sortByTouch
     // remove keys and convert to array for sorting
     sorted_repos = []
     for (const [key, value] of Object.entries(repo_data)) {
@@ -579,13 +573,7 @@ async function fetchButtonAllInOne(){
       value['repo_name'] = key    // add the key to the object
       sorted_repos.push(value)    // place it into array
     }
-    
-    console.log("> - > - > SORT TEST - M1");
-    //console.log(sorted_repos);
-    for (const r in sorted_repos){
-      console.log(`${sorted_repos[r]['date_touch']}  - ${sorted_repos[r]['date_general']} - ${sorted_repos[r]['repo_name']}`);
-    }
-    
+        
     if (sortByTouch) {
       // for sorting arrays
       sorted_repos = sorted_repos.sort( function (a, b) {
@@ -603,38 +591,13 @@ async function fetchButtonAllInOne(){
       
     }
     
-    
-    console.log("> - > - > SORT TEST - M2");    
-    
-    console.log("* TOUCH  *  - *GENERAL * < sorting by");
-    console.log(sorting_by);
-    
-    for (const r in sorted_repos){  // this return index not objects!      
-      console.log(`${sorted_repos[r]['date_touch']}  - ${sorted_repos[r]['date_general']} - ${sorted_repos[r]['repo_name']}`);
-    }
-
-    
-    console.log("> - > - > SORT TEST - E");
-    
     // = = = = - - - - = = = = - - - - = = = = - - - - = = = = - - - -
-    // build HTML for repo container - id="repos"
-    
-    var output = '';
-    
-    for (var key in repo_data){
+    // build HTML for repo container - id="repos"    
+    var output = '';  
       
-      // sanity check to make sure data is where we think it is!!
-      //console.log("8-8-8-8-8-8-object-inspect - *");
-      //console.log(`REPO NAME(&key): ${key} <`);    
-      //console.log(repo_data[key].desc);
-      //console.log(repo_data[key].changes_to_commit);
-      //console.log(repo_data[key].not_staged);
-      //console.log(repo_data[key].untracked);
-      //console.log('#-=#=-#-S');
-      //console.log(repo_data[key]);
-      //console.log('#-=#=-#-E');
-
-      output += create_filled_in_status_element(key, repo_data);
+    for (var index in sorted_repos){
+      
+      output += create_filled_in_status_element(sorted_repos[index]['repo_name'], repo_data);
 
     }
     
