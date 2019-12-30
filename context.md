@@ -25,10 +25,10 @@ Finish JS auto complete exercize
 
 
 ### Completed
-2019.Aug.04 - Order repos by last touch (or average touch: 'date_general': 1563990008.0) 
-2019.Aug.04 - poc code: 0b2f22a95a134 tidy up: 50ec9341f278c7
+2019.Aug.04 - Order repos by last touch (or average touch: 'date_general': 1563990008.0)  
+2019.Aug.04 - poc code: 0b2f22a95a134 tidy up: 50ec9341f278c7  
 2019.Aug.03 - Create an Open readme  button for each repo with href to README.md for that repo  
-2019.Aug.03 - Set background colour according to status (Use blue for parked)
+2019.Aug.03 - Set background colour according to status (Use blue for parked)  
 2019.Aug.03 - Report next steps in card - repo report  
 2019.Aug.02 - Update sequence diagram of report.  
 2019.Aug.02 - Get next steps & status colour & reason from context.md  
