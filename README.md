@@ -14,6 +14,10 @@ js_fetch_both_ways_example.js                           # Click JS fetch follow 
 ```
 
 NEXT:
+Read this and revisit the code.
+https://developers.google.com/web/fundamentals/primers/promises
+https://github.com/googlesamples/web-fundamentals/blob/gh-pages/fundamentals/primers/async-example.html
+
 See how may anit patterns we've trodden in:
 Promises & their anti patterns (https://www.nearform.com/blog/javascript-promises-the-definitive-guid)
 

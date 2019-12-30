@@ -21,13 +21,13 @@ def get_text_file_contents_from_asset_server(text_filename):
     file_text = 'FILE ACCESS ERROR: NO FILE or NO DATA IN FILE'
     
     print("----- get_text_file_contents_from_asset_server -------------------------------------------------")
-    base_url = 'http://192.168.0.8:8000/'
+    base_url = 'http://127.0.0.1:8000/'
     url = f"{base_url}{text_filename}"
     print(url)
 
-    # IN  http://192.168.0.8:8000/static/recipe/20190228_163410_monkfish and red pepper skewers.txt
+    # IN  base_url/static/recipe/20190228_163410_monkfish and red pepper skewers.txt
     # url = url.replace(" ", "%20")          # WORKS 
-    # OUT http://192.168.0.8:8000/static/recipe/20190228_163410_monkfish%20and%20red%20pepper%20skewers.txt
+    # OUT base_url/static/recipe/20190228_163410_monkfish%20and%20red%20pepper%20skewers.txt
 
     # get recipe text from assest server
     url = urllib.parse.quote(url, safe='/:')  # WORKS - likely more robust
@@ -118,13 +118,13 @@ def get_igd_vocab():
     
 if __name__ == '__main__':
     # print("-----  get CSV ------------------------------------S")
-    # fetch_file = 'http://192.168.0.8:8000/static/sql_recipe_data.csv'
+    # fetch_file = 'base_url/static/sql_recipe_data.csv'
     # get_csv_from_server_as_disctionary(fetch_file)
     # print("-----  get CSV ------------------------------------E")
 
     file_path = 'scratch/nutrinfo.txt'
     #file_text = '20190109_143622_crabcakes.txt'
-    #urllib.request = 'http://192.168.0.8:8000/static/recipe/20190109_143622_crabcakes.txt'
+    #urllib.request = 'base_url/static/recipe/20190109_143622_crabcakes.txt'
     nutrinfo_text = get_text_file_contents_from_asset_server(file_path)
 
     print( get_nutrinfo_vocab(nutrinfo_text) )
